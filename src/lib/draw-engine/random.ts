@@ -7,5 +7,5 @@ export function generateRandomDraw(): number[] {
     const num = Math.floor(Math.random() * 45) + 1;
     numbers.add(num);
   }
-  return Array.from(numbers).sort((a, b) => a - b);
+  return Array.from(numbers).sort(( a: any, b: any ) => a - b);
 }

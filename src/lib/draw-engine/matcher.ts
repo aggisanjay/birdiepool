@@ -15,7 +15,7 @@ export function matchScores(userScores: number[], drawNumbers: number[]): MatchR
   else if (matchCount === 3) matchType = 'match_3';
   else matchType = 'no_match';
 
-  return { matchedNumbers: matchedNumbers.sort((a, b) => a - b), matchCount, matchType };
+  return { matchedNumbers: matchedNumbers.sort(( a: any, b: any ) => a - b), matchCount, matchType };
 }
 
 export interface EntryResult {

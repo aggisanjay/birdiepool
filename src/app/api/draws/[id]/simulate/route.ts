@@ -44,9 +44,9 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
         iterations, totalEligible: eligibleUsers.length, drawMode: draw.mode,
         totalPoolCents: draw.total_pool_cents, rolloverCents: draw.rollover_cents,
         averages: {
-          match5Winners: simulations.reduce((s, sim) => s + sim.match5Winners, 0) / iterations,
-          match4Winners: simulations.reduce((s, sim) => s + sim.match4Winners, 0) / iterations,
-          match3Winners: simulations.reduce((s, sim) => s + sim.match3Winners, 0) / iterations,
+          match5Winners: simulations.reduce(( s: any, sim: any ) => s + sim.match5Winners, 0) / iterations,
+          match4Winners: simulations.reduce(( s: any, sim: any ) => s + sim.match4Winners, 0) / iterations,
+          match3Winners: simulations.reduce(( s: any, sim: any ) => s + sim.match3Winners, 0) / iterations,
         },
         simulations: simulations.slice(0, 10),
       },

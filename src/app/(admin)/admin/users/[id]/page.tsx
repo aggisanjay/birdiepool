@@ -18,7 +18,7 @@ export default async function AdminUserDetailPage({ params }: { params: { id: st
   if (!profile) notFound();
 
   const activeSub = (profile.subscriptions as Record<string, unknown>[])?.find(( s: any ) => ['active','trialing'].includes(s.status as string));
-  const scores = ((profile.scores as Record<string, unknown>[]) ?? []).sort((a, b) => (a.position as number) - (b.position as number));
+  const scores = ((profile.scores as Record<string, unknown>[]) ?? []).sort(( a: any, b: any ) => (a.position as number) - (b.position as number));
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 space-y-8">

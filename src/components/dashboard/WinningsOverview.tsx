@@ -19,8 +19,8 @@ const verificationBadge: Record<string, { variant: string; icon: typeof Clock; l
 export function WinningsOverview({ winners }: { winners: Winner[] }) {
   const [uploadingId, setUploadingId] = useState<string | null>(null);
   const { toast } = useToast();
-  const totalWon = winners.filter(( w: any ) => w.payment_status === 'paid').reduce((sum, w) => sum + w.prize_amount_cents, 0);
-  const pendingAmount = winners.filter(( w: any ) => w.verification_status === 'approved' && w.payment_status === 'pending').reduce((sum, w) => sum + w.prize_amount_cents, 0);
+  const totalWon = winners.filter(( w: any ) => w.payment_status === 'paid').reduce(( sum: any, w: any ) => sum + w.prize_amount_cents, 0);
+  const pendingAmount = winners.filter(( w: any ) => w.verification_status === 'approved' && w.payment_status === 'pending').reduce(( sum: any, w: any ) => sum + w.prize_amount_cents, 0);
 
   async function handleProofUpload(winnerId: string, file: File) {
     setUploadingId(winnerId);

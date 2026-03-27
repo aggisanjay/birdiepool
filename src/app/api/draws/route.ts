@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
 
     const { data: eligible } = await adminSupabase.rpc('get_draw_eligible_users');
     const { data: activeContributions } = await adminSupabase.from('subscriptions').select('prize_pool_contribution_cents').in('status', ['active', 'trialing']);
-    const totalPool = activeContributions?.reduce((sum, s) => sum + (s.prize_pool_contribution_cents ?? 0), 0) ?? 0;
+    const totalPool = activeContributions?.reduce(( sum: any, s: any ) => sum + (s.prize_pool_contribution_cents ?? 0), 0) ?? 0;
 
     const { data: configs } = await adminSupabase.from('platform_config').select('key, value').in('key', ['match_5_pool_pct', 'match_4_pool_pct', 'match_3_pool_pct']);
     const configMap = new Map(configs?.map(( c: any ) => [c.key, Number(c.value)]) ?? []);

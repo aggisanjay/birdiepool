@@ -32,8 +32,8 @@ export default async function DashboardPage() {
     ['active', 'trialing'].includes(subscription.status) &&
     new Date(subscription.current_period_end!) > new Date();
 
-  const totalWon = winners?.reduce((sum, w) => w.payment_status === 'paid' ? sum + w.prize_amount_cents : sum, 0) ?? 0;
-  const pendingWinnings = winners?.reduce((sum, w) => w.payment_status === 'pending' && w.verification_status === 'approved' ? sum + w.prize_amount_cents : sum, 0) ?? 0;
+  const totalWon = winners?.reduce(( sum: any, w: any ) => w.payment_status === 'paid' ? sum + w.prize_amount_cents : sum, 0) ?? 0;
+  const pendingWinnings = winners?.reduce(( sum: any, w: any ) => w.payment_status === 'pending' && w.verification_status === 'approved' ? sum + w.prize_amount_cents : sum, 0) ?? 0;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-8">

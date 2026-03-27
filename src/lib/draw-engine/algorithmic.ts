@@ -13,7 +13,7 @@ export function generateAlgorithmicDraw(allUserScores: number[][]): number[] {
     }
   }
 
-  const totalFrequency = Array.from(frequency.values()).reduce((a, b) => a + b, 0);
+  const totalFrequency = Array.from(frequency.values()).reduce(( a: any, b: any ) => a + b, 0);
   if (totalFrequency === 0) return generateUniformRandom();
 
   const weightedPool: { number: number; weight: number }[] = [];
@@ -25,7 +25,7 @@ export function generateAlgorithmicDraw(allUserScores: number[][]): number[] {
   const pool = [...weightedPool];
 
   while (selected.size < 5) {
-    const totalWeight = pool.reduce((sum, item) => sum + item.weight, 0);
+    const totalWeight = pool.reduce(( sum: any, item: any ) => sum + item.weight, 0);
     let random = Math.random() * totalWeight;
     for (let i = 0; i < pool.length; i++) {
       random -= pool[i].weight;
@@ -37,7 +37,7 @@ export function generateAlgorithmicDraw(allUserScores: number[][]): number[] {
     }
   }
 
-  return Array.from(selected).sort((a, b) => a - b);
+  return Array.from(selected).sort(( a: any, b: any ) => a - b);
 }
 
 function generateUniformRandom(): number[] {
@@ -45,5 +45,5 @@ function generateUniformRandom(): number[] {
   while (numbers.size < 5) {
     numbers.add(Math.floor(Math.random() * 45) + 1);
   }
-  return Array.from(numbers).sort((a, b) => a - b);
+  return Array.from(numbers).sort(( a: any, b: any ) => a - b);
 }

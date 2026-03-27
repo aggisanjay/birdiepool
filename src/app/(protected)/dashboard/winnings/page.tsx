@@ -8,8 +8,8 @@ export default async function WinningsPage() {
   if (!user) redirect('/login');
   const { data: winners } = await supabase.from('winners').select('*, draws(draw_month, numbers)').eq('user_id', user.id).order('created_at', { ascending: false });
 
-  const totalWon = winners?.filter(( w: any ) => w.payment_status === 'paid').reduce((s, w) => s + w.prize_amount_cents, 0) ?? 0;
-  const pending = winners?.filter(( w: any ) => w.verification_status === 'approved' && w.payment_status === 'pending').reduce((s, w) => s + w.prize_amount_cents, 0) ?? 0;
+  const totalWon = winners?.filter(( w: any ) => w.payment_status === 'paid').reduce(( s: any, w: any ) => s + w.prize_amount_cents, 0) ?? 0;
+  const pending = winners?.filter(( w: any ) => w.verification_status === 'approved' && w.payment_status === 'pending').reduce(( s: any, w: any ) => s + w.prize_amount_cents, 0) ?? 0;
 
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8 space-y-8">

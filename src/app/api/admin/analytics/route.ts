@@ -18,7 +18,7 @@ export async function GET() {
     const { data: yearlyCount } = await adminSupabase.from('subscriptions').select('id', { count: 'exact' }).eq('interval', 'yearly').in('status', ['active', 'trialing']);
     const { data: revenueData } = await adminSupabase.from('subscriptions').select('prize_pool_contribution_cents, charity_contribution_cents, platform_revenue_cents').in('status', ['active', 'trialing']);
 
-    const revenue = revenueData?.reduce((acc, sub) => ({
+    const revenue = revenueData?.reduce(( acc: any, sub: any ) => ({
       prizePool: acc.prizePool + (sub.prize_pool_contribution_cents ?? 0),
       charity: acc.charity + (sub.charity_contribution_cents ?? 0),
       platform: acc.platform + (sub.platform_revenue_cents ?? 0),
