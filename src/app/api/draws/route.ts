@@ -35,18 +35,18 @@ export async function POST(request: NextRequest) {
     const { data: existingDraw } = await adminSupabase.from('draws').select('id').eq('draw_month', validated.draw_month).single() as any;
     if (existingDraw) throw new ValidationError('A draw already exists for this month');
 
-    const { data: eligible } = await adminSupabase.rpc('get_draw_eligible_users');
-    const { data: activeContributions } = await adminSupabase.from('subscriptions').select('prize_pool_contribution_cents').in('status', ['active', 'trialing']);
+    const { data: eligible } = await adminSupabase.rpc('get_draw_eligible_users') as any;
+    const { data: activeContributions } = await adminSupabase.from('subscriptions').select('prize_pool_contribution_cents').in('status', ['active', 'trialing']) as any;
     const totalPool = activeContributions?.reduce(( sum: any, s: any ) => sum + (s.prize_pool_contribution_cents ?? 0), 0) ?? 0;
 
-    const { data: configs } = await adminSupabase.from('platform_config').select('key, value').in('key', ['match_5_pool_pct', 'match_4_pool_pct', 'match_3_pool_pct']);
-    const configMap = new Map(configs?.map(( c: any ) => [c.key, Number(c.value)]) ?? []);
+    const { data: configs } = await adminSupabase.from('platform_config').select('key, value').in('key', ['match_5_pool_pct', 'match_4_pool_pct', 'match_3_pool_pct']) as any;
+    const configMap = new Map((configs as any[])?.map(( c: any ) => [c.key, Number(c.value)]) ?? []);
     const match5Pct = configMap.get('match_5_pool_pct') ?? 40;
     const match4Pct = configMap.get('match_4_pool_pct') ?? 35;
     const match3Pct = configMap.get('match_3_pool_pct') ?? 25;
 
     const { data: previousDraw } = await adminSupabase.from('draws').select('match_5_pool_cents, rollover_cents, match_5_count').lt('draw_month', validated.draw_month).in('status', ['published', 'completed']).order('draw_month', { ascending: false }).limit(1).single() as any;
-    const rollover = previousDraw && previousDraw.match_5_count === 0 ? previousDraw.match_5_pool_cents + previousDraw.rollover_cents : 0;
+    const rollover = (previousDraw && (previousDraw as any).match_5_count === 0) ? (previousDraw as any).match_5_pool_cents + (previousDraw as any).rollover_cents : 0;
 
     const { data: draw, error } = await adminSupabase.from('draws').insert({
       draw_month: validated.draw_month, mode: validated.mode as never, status: 'draft' as never,
@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
     }).select().single() as any;
     if (error) throw error;
 
-    await adminSupabase.from('audit_log').insert({ actor_id: user.id, action: 'draw_created', entity_type: 'draw', entity_id: draw.id, metadata: { draw_month: validated.draw_month, mode: validated.mode } });
+    await (adminSupabase.from('audit_log') as any).insert({ actor_id: user.id, action: 'draw_created', entity_type: 'draw', entity_id: draw.id, metadata: { draw_month: validated.draw_month, mode: validated.mode } });
     return Response.json({ draw }, { status: 201 });
   } catch (error) { return handleApiError(error); }
 }

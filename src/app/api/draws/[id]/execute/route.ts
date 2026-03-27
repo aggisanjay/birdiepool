@@ -19,7 +19,7 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
     if (!draw) throw new NotFoundError('Draw not found');
     if (!['draft', 'simulated'].includes(draw.status)) throw new ValidationError('Draw can only be executed from draft or simulated status');
 
-    const { data: eligibleUsers } = await adminSupabase.rpc('get_draw_eligible_users');
+    const { data: eligibleUsers } = await adminSupabase.rpc('get_draw_eligible_users') as any;
     if (!eligibleUsers || eligibleUsers.length === 0) throw new ValidationError('No eligible participants for this draw');
 
     const drawNumbers = draw.mode === 'algorithmic'
@@ -32,10 +32,10 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
 
     const results = processDrawEntries(drawNumbers, insertedEntries!);
 
-    for (const entry of insertedEntries!) {
+    for (const entry of (insertedEntries as any[])) {
       const drawSet = new Set(drawNumbers);
       const matched = (entry.scores as number[]).filter((s: number) => drawSet.has(s));
-      await adminSupabase.from('draw_entries').update({ matched_numbers: matched, match_count: matched.length }).eq('id', entry.id);
+      await (adminSupabase.from('draw_entries') as any).update({ matched_numbers: matched, match_count: matched.length }).eq('id', entry.id);
     }
 
     const prizeDistribution = calculatePrizeDistribution(draw.total_pool_cents, draw.rollover_cents, results.match5Winners.length, results.match4Winners.length, results.match3Winners.length);
@@ -46,11 +46,11 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
     ];
 
     if (winnerRecords.length > 0) {
-      const { error: winnersError } = await adminSupabase.from('winners').insert(winnerRecords);
+      const { error: winnersError } = await (adminSupabase.from('winners') as any).insert(winnerRecords);
       if (winnersError) throw winnersError;
     }
 
-    const { data: updatedDraw, error: updateError } = await adminSupabase.from('draws').update({
+    const { data: updatedDraw, error: updateError } = await (adminSupabase.from('draws') as any).update({
       numbers: drawNumbers, status: 'simulated' as never, executed_at: new Date().toISOString(),
       eligible_participants: eligibleUsers.length, match_5_count: results.match5Winners.length,
       match_4_count: results.match4Winners.length, match_3_count: results.match3Winners.length,
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
     }).eq('id', draw.id).select().single() as any;
     if (updateError) throw updateError;
 
-    await adminSupabase.from('audit_log').insert({ actor_id: user.id, action: 'draw_executed', entity_type: 'draw', entity_id: draw.id, metadata: { numbers: drawNumbers, winners: winnerRecords.length } });
+    await (adminSupabase.from('audit_log') as any).insert({ actor_id: user.id, action: 'draw_executed', entity_type: 'draw', entity_id: draw.id, metadata: { numbers: drawNumbers, winners: winnerRecords.length } });
     return Response.json({ draw: updatedDraw, results: { drawNumbers, totalEntries: results.totalEntries, match5Winners: results.match5Winners.length, match4Winners: results.match4Winners.length, match3Winners: results.match3Winners.length, prizeDistribution } });
   } catch (error) { return handleApiError(error); }
 }

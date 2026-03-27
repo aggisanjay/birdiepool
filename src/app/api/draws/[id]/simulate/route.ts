@@ -18,7 +18,7 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
     const { data: draw } = await adminSupabase.from('draws').select('*').eq('id', params.id).single() as any;
     if (!draw) throw new NotFoundError('Draw not found');
 
-    const { data: eligibleUsers } = await adminSupabase.rpc('get_draw_eligible_users');
+    const { data: eligibleUsers } = await adminSupabase.rpc('get_draw_eligible_users') as any;
     if (!eligibleUsers || eligibleUsers.length === 0) return Response.json({ simulation: { drawNumbers: [], totalEligible: 0, message: 'No eligible participants' } });
 
     const body = await request.json().catch(() => ({}));
@@ -30,7 +30,7 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
         ? generateAlgorithmicDraw(eligibleUsers.map((u: Record<string, unknown>) => u.scores as number[]))
         : generateRandomDraw();
       let match5 = 0, match4 = 0, match3 = 0;
-      for (const u of eligibleUsers) {
+      for (const u of eligibleUsers as any[]) {
         const result = matchScores(u.scores as number[], drawNumbers);
         if (result.matchType === 'match_5') match5++;
         else if (result.matchType === 'match_4') match4++;
