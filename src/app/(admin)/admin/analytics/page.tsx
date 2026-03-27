@@ -1,5 +1,5 @@
 import { createServerSupabaseClient } from '@/lib/supabase/server';
-import { redirect, cookies } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import { AnalyticsCharts } from '@/components/admin/AnalyticsCharts';
 
 export default async function AdminAnalyticsPage() {
