@@ -38,7 +38,7 @@ export function ScoreEntry({ scores: initialScores, isActive }: ScoreEntryProps)
     try {
       const res = await fetch(`/api/scores/${id}`, { method: 'DELETE' });
       if (!res.ok) throw new Error('Failed to delete');
-      setScores((prev) => prev.filter((s) => s.id !== id));
+      setScores((prev) => prev.filter(( s: any ) => s.id !== id));
       toast({ title: 'Score removed', variant: 'success' });
     } catch (err: unknown) { toast({ title: 'Error', description: err instanceof Error ? err.message : 'Unknown error', variant: 'error' }); }
   }

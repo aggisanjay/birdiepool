@@ -26,7 +26,7 @@ export default async function AdminUsersPage() {
           </tr></thead>
           <tbody className="divide-y divide-slate-800">
             {(users ?? []).map(( u: any ) => {
-              const activeSub = (u.subscriptions as Record<string, unknown>[])?.find((s) => s.status === 'active' || s.status === 'trialing');
+              const activeSub = (u.subscriptions as Record<string, unknown>[])?.find(( s: any ) => s.status === 'active' || s.status === 'trialing');
               return (
                 <tr key={u.id} className="hover:bg-slate-800/50">
                   <td className="px-6 py-4"><p className="font-medium text-white">{u.full_name}</p><p className="text-slate-400 text-xs">{u.email}</p></td>

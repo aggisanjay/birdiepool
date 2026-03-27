@@ -17,7 +17,7 @@ export default async function AdminUserDetailPage({ params }: { params: { id: st
     .eq('id', params.id).single() as any;
   if (!profile) notFound();
 
-  const activeSub = (profile.subscriptions as Record<string, unknown>[])?.find((s) => ['active','trialing'].includes(s.status as string));
+  const activeSub = (profile.subscriptions as Record<string, unknown>[])?.find(( s: any ) => ['active','trialing'].includes(s.status as string));
   const scores = ((profile.scores as Record<string, unknown>[]) ?? []).sort((a, b) => (a.position as number) - (b.position as number));
 
   return (

@@ -1,5 +1,5 @@
 import { createServerSupabaseClient } from '@/lib/supabase/server';
-import { redirect, cookies } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import { Card } from '@/components/ui/Card';
 import { AnimatedCounter } from '@/components/shared/AnimatedCounter';
 import { Users, CreditCard, Trophy, Heart, TrendingUp, AlertCircle } from 'lucide-react';

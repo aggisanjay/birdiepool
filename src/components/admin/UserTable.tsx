@@ -10,7 +10,7 @@ interface UserRow { id: string; full_name: string; email: string; role: string; 
 
 export function UserTable({ users: initialUsers }: { users: UserRow[] }) {
   const [search, setSearch] = useState('');
-  const filtered = initialUsers.filter((u) => u.full_name.toLowerCase().includes(search.toLowerCase()) || u.email.toLowerCase().includes(search.toLowerCase()));
+  const filtered = initialUsers.filter(( u: any ) => u.full_name.toLowerCase().includes(search.toLowerCase()) || u.email.toLowerCase().includes(search.toLowerCase()));
 
   const columns = [
     { key: 'full_name', label: 'Name', sortable: true, render: (row: UserRow) => (
@@ -20,7 +20,7 @@ export function UserTable({ users: initialUsers }: { users: UserRow[] }) {
       <Badge variant={row.role === 'admin' ? 'accent' : 'default'}>{row.role}</Badge>
     )},
     { key: 'subscription', label: 'Subscription', render: (row: UserRow) => {
-      const active = row.subscriptions?.find((s) => ['active','trialing'].includes(s.status as string));
+      const active = row.subscriptions?.find(( s: any ) => ['active','trialing'].includes(s.status as string));
       return active ? <Badge variant="success">{active.interval as string}</Badge> : <span className="text-slate-500 text-xs">None</span>;
     }},
     { key: 'created_at', label: 'Joined', sortable: true, render: (row: UserRow) => (

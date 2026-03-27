@@ -26,8 +26,8 @@ export function useDraws() {
 
   useEffect(() => { fetchDraws(); }, [fetchDraws]);
 
-  const currentDraw = draws.find((d) => ['published', 'simulated', 'draft'].includes(d.status));
-  const completedDraws = draws.filter((d) => ['completed', 'published'].includes(d.status));
+  const currentDraw = draws.find(( d: any ) => ['published', 'simulated', 'draft'].includes(d.status));
+  const completedDraws = draws.filter(( d: any ) => ['completed', 'published'].includes(d.status));
 
   return { draws, currentDraw, completedDraws, loading, refresh: fetchDraws };
 }

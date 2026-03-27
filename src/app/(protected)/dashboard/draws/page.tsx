@@ -15,8 +15,8 @@ export default async function DrawsPage() {
     supabase.from('draw_entries').select('*, draws(draw_month)').eq('user_id', user.id).order('created_at', { ascending: false }),
   ]);
 
-  const currentDraw = draws?.find((d) => ['draft','simulated','published'].includes(d.status)) ?? null;
-  const pastDraws = draws?.filter((d) => d.status === 'completed' || d.status === 'published') ?? [];
+  const currentDraw = draws?.find(( d: any ) => ['draft','simulated','published'].includes(d.status)) ?? null;
+  const pastDraws = draws?.filter(( d: any ) => d.status === 'completed' || d.status === 'published') ?? [];
   const myEntryMap = new Map(myEntries?.map(( e: any ) => [e.draw_id, e]));
 
   return (

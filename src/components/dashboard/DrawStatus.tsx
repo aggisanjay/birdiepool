@@ -21,7 +21,7 @@ export function DrawStatus({ draw, scores }: DrawStatusProps) {
   const isPublished = draw.status === 'published' || draw.status === 'completed';
   const userScoreValues = scores.map(( s: any ) => s.score as number);
   const drawNumbers = (draw.numbers as number[]) ?? [];
-  const matchedNumbers = isPublished ? userScoreValues.filter((s) => drawNumbers.includes(s)) : [];
+  const matchedNumbers = isPublished ? userScoreValues.filter(( s: any ) => drawNumbers.includes(s)) : [];
   const totalPoolFormatted = (((draw.total_pool_cents as number) + (draw.rollover_cents as number)) / 100).toFixed(2);
 
   return (

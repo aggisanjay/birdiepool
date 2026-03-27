@@ -6,7 +6,7 @@ export interface MatchResult {
 
 export function matchScores(userScores: number[], drawNumbers: number[]): MatchResult {
   const drawSet = new Set(drawNumbers);
-  const matchedNumbers = userScores.filter((score) => drawSet.has(score));
+  const matchedNumbers = userScores.filter(( score: any ) => drawSet.has(score));
   const matchCount = matchedNumbers.length;
 
   let matchType: MatchResult['matchType'];
