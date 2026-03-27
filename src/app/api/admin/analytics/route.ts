@@ -26,7 +26,7 @@ export async function GET() {
 
     const { data: allScores } = await adminSupabase.from('scores').select('score');
     const scoreFrequency: Record<number, number> = {};
-    if (allScores) for (const s of allScores) scoreFrequency[s.score] = (scoreFrequency[s.score] ?? 0) + 1;
+    if (allScores) for (const s of allScores as any[]) scoreFrequency[s.score] = (scoreFrequency[s.score] ?? 0) + 1;
 
     return Response.json({ stats, subscriptionBreakdown: { monthly: monthlyCount?.length ?? 0, yearly: yearlyCount?.length ?? 0 }, revenue, drawHistory, topCharities, recentWinners, scoreFrequency });
   } catch (error) { return handleApiError(error); }
