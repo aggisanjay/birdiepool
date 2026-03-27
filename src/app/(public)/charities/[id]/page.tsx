@@ -61,7 +61,7 @@ export default async function CharityDetailPage({ params }: { params: { id: stri
           <div className="mb-8">
             <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2"><Calendar className="w-5 h-5 text-blue-400" />Events</h2>
             <div className="space-y-3">
-              {charity.charity_events.filter((e: Record<string, unknown>) => e.is_active).map((event: Record<string, unknown>) => (
+              {charity.charity_events.filter((e: any) => e.is_active).map((event: any) => (
                 <div key={event.id as string} className="bg-slate-900 border border-slate-800 rounded-xl p-5">
                   <h3 className="font-bold text-white">{event.title as string}</h3>
                   {event.event_date && <p className="text-xs text-slate-400 mt-1">{new Date(event.event_date as string).toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</p>}
