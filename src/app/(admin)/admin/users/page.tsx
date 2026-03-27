@@ -25,7 +25,7 @@ export default async function AdminUsersPage() {
             <th className="text-left px-6 py-4">Joined</th>
           </tr></thead>
           <tbody className="divide-y divide-slate-800">
-            {(users ?? []).map((u) => {
+            {(users ?? []).map(( u: any ) => {
               const activeSub = (u.subscriptions as Record<string, unknown>[])?.find((s) => s.status === 'active' || s.status === 'trialing');
               return (
                 <tr key={u.id} className="hover:bg-slate-800/50">

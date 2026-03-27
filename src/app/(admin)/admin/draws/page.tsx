@@ -20,7 +20,7 @@ export default async function AdminDrawsPage() {
         <Link href="/admin/draws/new"><button className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-semibold">+ New Draw</button></Link>
       </div>
       {draws && draws.length > 0 ? (
-        <div className="space-y-6">{draws.map((draw) => (<DrawConfigurator key={draw.id} draw={draw as Record<string, unknown>} onUpdate={() => window.location.reload()} />))}</div>
+        <div className="space-y-6">{draws.map(( draw: any ) => (<DrawConfigurator key={draw.id} draw={draw as Record<string, unknown>} onUpdate={() => window.location.reload()} />))}</div>
       ) : (
         <div className="text-center py-16 text-slate-400"><p className="text-lg">No draws yet.</p><p className="text-sm mt-2">Create the first monthly draw to get started.</p></div>
       )}

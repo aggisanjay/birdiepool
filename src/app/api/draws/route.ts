@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
     const totalPool = activeContributions?.reduce((sum, s) => sum + (s.prize_pool_contribution_cents ?? 0), 0) ?? 0;
 
     const { data: configs } = await adminSupabase.from('platform_config').select('key, value').in('key', ['match_5_pool_pct', 'match_4_pool_pct', 'match_3_pool_pct']);
-    const configMap = new Map(configs?.map((c) => [c.key, Number(c.value)]) ?? []);
+    const configMap = new Map(configs?.map(( c: any ) => [c.key, Number(c.value)]) ?? []);
     const match5Pct = configMap.get('match_5_pool_pct') ?? 40;
     const match4Pct = configMap.get('match_4_pool_pct') ?? 35;
     const match3Pct = configMap.get('match_3_pool_pct') ?? 25;

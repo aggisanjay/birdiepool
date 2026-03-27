@@ -18,7 +18,7 @@ export function HowItWorks() {
           <p className="text-lg text-slate-400 max-w-2xl mx-auto">Four simple steps to turn your golf game into something meaningful</p>
         </motion.div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {steps.map((step, index) => (
+          {steps.map(( step: any, index: number ) => (
             <motion.div key={step.title} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: index * 0.15 }}>
               <div className="relative group">
                 <div className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-sm font-bold text-slate-400 z-10">{index + 1}</div>

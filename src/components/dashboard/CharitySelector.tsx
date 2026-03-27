@@ -82,7 +82,7 @@ export function CharitySelector({ selectedCharity, contributionPct: initialPct }
                 <div className="relative"><Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" /><input type="text" placeholder="Search charities..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-full bg-slate-800 border border-slate-700 rounded-lg pl-10 pr-4 py-2 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500" /></div>
               </div>
               <div className="overflow-y-auto max-h-96 p-4 space-y-2">
-                {loading ? <div className="text-center py-8 text-slate-400">Loading...</div> : charities.length === 0 ? <div className="text-center py-8 text-slate-400">No charities found</div> : charities.map((charity) => (
+                {loading ? <div className="text-center py-8 text-slate-400">Loading...</div> : charities.length === 0 ? <div className="text-center py-8 text-slate-400">No charities found</div> : charities.map(( charity: any ) => (
                   <button key={charity.id} onClick={() => selectCharity(charity.id)} className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-slate-800 transition-colors text-left">
                     {charity.logo_url && <Image src={charity.logo_url} alt={charity.name} width={40} height={40} className="rounded-lg object-cover" />}
                     <div className="flex-1"><p className="font-semibold text-white">{charity.name}</p><p className="text-xs text-slate-400 line-clamp-1">{charity.description}</p></div>

@@ -46,7 +46,7 @@ export function WinningsOverview({ winners }: { winners: Winner[] }) {
           <div className="text-center py-8"><Trophy className="w-12 h-12 text-slate-700 mx-auto mb-3" /><p className="text-slate-500 text-sm">No wins yet — keep playing!</p></div>
         ) : (
           <div className="space-y-3">
-            {winners.map((winner) => {
+            {winners.map(( winner: any ) => {
               const vBadge = verificationBadge[winner.verification_status];
               const drawMonth = new Date(winner.draws.draw_month).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
               return (

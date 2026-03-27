@@ -19,7 +19,7 @@ export function CharitySpotlight({ charities }: { charities: Charity[] }) {
           <p className="text-lg text-slate-400 max-w-2xl mx-auto">Every subscriber chooses a charity. Every month, a portion of your subscription goes directly to them.</p>
         </motion.div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {charities.map((charity, index) => (
+          {charities.map(( charity: any, index: number ) => (
             <motion.div key={charity.id} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.1 }}>
               <Link href={`/charities/${charity.slug}`}>
                 <Card hover className="h-full cursor-pointer">

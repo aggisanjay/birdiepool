@@ -41,7 +41,7 @@ export default function NewDrawPage() {
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-2">Draw Mode</label>
               <div className="grid grid-cols-2 gap-3">
-                {(['random', 'algorithmic'] as const).map((m) => (
+                {(['random', 'algorithmic'] as const).map(( m: any ) => (
                   <button key={m} type="button" onClick={() => setMode(m)} className={`p-4 rounded-xl border text-sm font-semibold capitalize transition-all ${mode === m ? 'border-emerald-500 bg-emerald-500/10 text-emerald-400' : 'border-slate-700 text-slate-400 hover:border-slate-500'}`}>{m}</button>
                 ))}
               </div>

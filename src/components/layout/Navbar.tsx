@@ -29,7 +29,7 @@ export function Navbar() {
           <span className="text-xl font-black text-white">BirdiePool</span>
         </Link>
         <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => <Link key={link.href} href={link.href} className="text-sm font-medium text-slate-400 hover:text-white transition-colors">{link.label}</Link>)}
+          {navLinks.map(( link: any ) => <Link key={link.href} href={link.href} className="text-sm font-medium text-slate-400 hover:text-white transition-colors">{link.label}</Link>)}
         </div>
         <div className="hidden md:flex items-center gap-3">
           {user ? (
@@ -49,7 +49,7 @@ export function Navbar() {
         {mobileOpen && (
           <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="md:hidden bg-slate-950/95 backdrop-blur-xl border-b border-slate-800">
             <div className="px-6 py-6 space-y-4">
-              {navLinks.map((link) => <Link key={link.href} href={link.href} onClick={() => setMobileOpen(false)} className="block text-lg font-medium text-slate-300 hover:text-white">{link.label}</Link>)}
+              {navLinks.map(( link: any ) => <Link key={link.href} href={link.href} onClick={() => setMobileOpen(false)} className="block text-lg font-medium text-slate-300 hover:text-white">{link.label}</Link>)}
               <div className="pt-4 border-t border-slate-800 space-y-3">
                 {user ? (
                   <Link href="/dashboard" onClick={() => setMobileOpen(false)}><Button variant="primary" size="lg" fullWidth>Dashboard</Button></Link>

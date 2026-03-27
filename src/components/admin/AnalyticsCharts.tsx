@@ -24,7 +24,7 @@ export function AnalyticsCharts({ signupsByMonth, revenue, drawHistory, topChari
           { label: 'Monthly Prize Pool', value: revenue.prizePool, icon: BarChart2, color: 'text-amber-400', bg: 'bg-amber-500/10' },
           { label: 'Charity Contributions', value: revenue.charity, icon: Heart, color: 'text-rose-400', bg: 'bg-rose-500/10' },
           { label: 'Platform Revenue', value: revenue.platform, icon: TrendingUp, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
-        ].map((item) => (
+        ].map(( item: any ) => (
           <Card key={item.label} padding="md">
             <div className={`w-10 h-10 rounded-xl ${item.bg} flex items-center justify-center mb-3`}><item.icon className={`w-5 h-5 ${item.color}`} /></div>
             <p className={`text-2xl font-black ${item.color}`}><AnimatedCounter value={item.value / 100} prefix="₹" decimals={0} /></p>
@@ -54,7 +54,7 @@ export function AnalyticsCharts({ signupsByMonth, revenue, drawHistory, topChari
         <Card>
           <h3 className="text-lg font-bold text-white mb-4">Recent Draw History</h3>
           <div className="space-y-2">
-            {drawHistory.slice(0, 6).map((draw) => (
+            {drawHistory.slice(0, 6).map(( draw: any ) => (
               <div key={draw.id as string} className="flex items-center justify-between p-3 bg-slate-800/50 rounded-xl">
                 <div><p className="font-medium text-white text-sm">{new Date(draw.draw_month as string).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })}</p>
                   <p className="text-xs text-slate-400">{draw.eligible_participants as number} participants</p></div>
@@ -73,7 +73,7 @@ export function AnalyticsCharts({ signupsByMonth, revenue, drawHistory, topChari
         <Card>
           <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2"><Heart className="w-5 h-5 text-rose-400" />Top Charities by Amount Raised</h3>
           <div className="space-y-3">
-            {topCharities.slice(0, 5).map((charity, i) => {
+            {topCharities.slice(0, 5).map(( charity: any, i: number ) => {
               const max = (topCharities[0].total_raised_cents as number) || 1;
               const pct = ((charity.total_raised_cents as number) / max) * 100;
               return (
@@ -92,7 +92,7 @@ export function AnalyticsCharts({ signupsByMonth, revenue, drawHistory, topChari
         <Card>
           <h3 className="text-lg font-bold text-white mb-4">Recent Winners</h3>
           <div className="space-y-2">
-            {recentWinners.slice(0, 8).map((w) => {
+            {recentWinners.slice(0, 8).map(( w: any ) => {
               const profile = w.profiles as Record<string, string>;
               const draw = w.draws as Record<string, unknown>;
               return (

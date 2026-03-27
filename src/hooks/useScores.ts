@@ -34,7 +34,7 @@ export function useScores() {
     const res = await fetch(`/api/scores/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(updates) });
     const data = await res.json();
     if (!res.ok) { toast({ title: 'Error', description: data.error, variant: 'error' }); throw new Error(data.error); }
-    setScores((prev) => prev.map((s) => (s.id === id ? data.score : s)));
+    setScores((prev) => prev.map(( s: any ) => (s.id === id ? data.score : s)));
     toast({ title: 'Score updated!', variant: 'success' });
     return data;
   }, [toast]);

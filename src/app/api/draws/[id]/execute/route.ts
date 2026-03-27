@@ -40,9 +40,9 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
 
     const prizeDistribution = calculatePrizeDistribution(draw.total_pool_cents, draw.rollover_cents, results.match5Winners.length, results.match4Winners.length, results.match3Winners.length);
     const winnerRecords = [
-      ...results.match5Winners.map((w) => ({ draw_id: draw.id, draw_entry_id: w.entryId, user_id: w.userId, match_type: 'match_5', matched_numbers: w.matchResult.matchedNumbers, prize_amount_cents: prizeDistribution.match5PrizePerWinner })),
-      ...results.match4Winners.map((w) => ({ draw_id: draw.id, draw_entry_id: w.entryId, user_id: w.userId, match_type: 'match_4', matched_numbers: w.matchResult.matchedNumbers, prize_amount_cents: prizeDistribution.match4PrizePerWinner })),
-      ...results.match3Winners.map((w) => ({ draw_id: draw.id, draw_entry_id: w.entryId, user_id: w.userId, match_type: 'match_3', matched_numbers: w.matchResult.matchedNumbers, prize_amount_cents: prizeDistribution.match3PrizePerWinner })),
+      ...results.match5Winners.map(( w: any ) => ({ draw_id: draw.id, draw_entry_id: w.entryId, user_id: w.userId, match_type: 'match_5', matched_numbers: w.matchResult.matchedNumbers, prize_amount_cents: prizeDistribution.match5PrizePerWinner })),
+      ...results.match4Winners.map(( w: any ) => ({ draw_id: draw.id, draw_entry_id: w.entryId, user_id: w.userId, match_type: 'match_4', matched_numbers: w.matchResult.matchedNumbers, prize_amount_cents: prizeDistribution.match4PrizePerWinner })),
+      ...results.match3Winners.map(( w: any ) => ({ draw_id: draw.id, draw_entry_id: w.entryId, user_id: w.userId, match_type: 'match_3', matched_numbers: w.matchResult.matchedNumbers, prize_amount_cents: prizeDistribution.match3PrizePerWinner })),
     ];
 
     if (winnerRecords.length > 0) {

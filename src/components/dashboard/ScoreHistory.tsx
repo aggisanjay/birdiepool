@@ -14,7 +14,7 @@ export function ScoreHistory({ scores }: { scores: Score[] }) {
           <EmptyState icon={Target} title="No scores yet" description="Add your first Stableford score to get started" />
         ) : (
           <div className="space-y-2">
-            {scores.map((score, i) => (
+            {scores.map(( score: any, i: number ) => (
               <div key={score.id} className="flex items-center justify-between p-3 bg-slate-800/50 rounded-xl">
                 <div className="flex items-center gap-3">
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${i === 0 ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-700 text-slate-400'}`}>#{score.position}</div>

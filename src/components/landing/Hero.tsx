@@ -39,7 +39,7 @@ export function Hero() {
             { icon: <Trophy className="w-6 h-6 text-amber-400" />, value: 15000, prefix: '₹', label: 'Total Prizes Won' },
             { icon: <Heart className="w-6 h-6 text-rose-400" />, value: 8500, prefix: '₹', label: 'Raised for Charity' },
             { icon: <Sparkles className="w-6 h-6 text-emerald-400" />, value: 1200, suffix: '+', label: 'Active Players' },
-          ].map((stat) => (
+          ].map(( stat: any ) => (
             <div key={stat.label} className="text-center">
               <div className="flex items-center justify-center gap-2 mb-2">
                 {stat.icon}

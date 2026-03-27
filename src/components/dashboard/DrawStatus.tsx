@@ -19,7 +19,7 @@ export function DrawStatus({ draw, scores }: DrawStatusProps) {
   }
   const drawMonth = new Date(draw.draw_month as string).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
   const isPublished = draw.status === 'published' || draw.status === 'completed';
-  const userScoreValues = scores.map((s) => s.score as number);
+  const userScoreValues = scores.map(( s: any ) => s.score as number);
   const drawNumbers = (draw.numbers as number[]) ?? [];
   const matchedNumbers = isPublished ? userScoreValues.filter((s) => drawNumbers.includes(s)) : [];
   const totalPoolFormatted = (((draw.total_pool_cents as number) + (draw.rollover_cents as number)) / 100).toFixed(2);
@@ -41,13 +41,13 @@ export function DrawStatus({ draw, scores }: DrawStatusProps) {
         {isPublished && drawNumbers.length > 0 && (
           <div className="mb-6">
             <h4 className="text-sm font-semibold text-slate-300 mb-3">Winning Numbers</h4>
-            <div className="flex justify-center gap-3">{drawNumbers.map((num, i) => <NumberBall key={num} number={num} matched={userScoreValues.includes(num)} size="lg" delay={i * 0.15} />)}</div>
+            <div className="flex justify-center gap-3">{drawNumbers.map(( num: any, i: number ) => <NumberBall key={num} number={num} matched={userScoreValues.includes(num)} size="lg" delay={i * 0.15} />)}</div>
           </div>
         )}
         {isPublished && (
           <div className="bg-slate-800/50 rounded-xl p-4">
             <h4 className="text-sm font-semibold text-slate-300 mb-3">Your Numbers</h4>
-            <div className="flex justify-center gap-3 mb-3">{userScoreValues.map((score, i) => <NumberBall key={i} number={score} matched={drawNumbers.includes(score)} size="md" delay={i * 0.1} />)}</div>
+            <div className="flex justify-center gap-3 mb-3">{userScoreValues.map(( score: any, i: number ) => <NumberBall key={i} number={score} matched={drawNumbers.includes(score)} size="md" delay={i * 0.1} />)}</div>
             <div className="text-center">
               {matchedNumbers.length >= 3 ? <motion.p initial={{ scale: 0 }} animate={{ scale: 1 }} className="text-lg font-black text-emerald-400">🎉 {matchedNumbers.length} Numbers Matched!</motion.p>
                 : <p className="text-sm text-slate-400">{matchedNumbers.length} number{matchedNumbers.length !== 1 ? 's' : ''} matched — better luck next month!</p>}

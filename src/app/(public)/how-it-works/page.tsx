@@ -22,7 +22,7 @@ export default function HowItWorksPage() {
             <div className="bg-slate-800/50 rounded-xl p-6 mb-6">
               <p className="text-sm text-slate-400 mb-3">Example: Your last 5 scores</p>
               <div className="flex gap-3 flex-wrap">
-                {[36, 42, 28, 35, 39].map((n, i) => <NumberBall key={i} number={n} matched={true} size="lg" delay={i * 0.1} />)}
+                {[36, 42, 28, 35, 39].map(( n: any, i: number ) => <NumberBall key={i} number={n} matched={true} size="lg" delay={i * 0.1} />)}
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">

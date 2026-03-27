@@ -17,11 +17,11 @@ export function Footer() {
             { title: 'Platform', links: [{ label: 'How It Works', href: '/how-it-works' }, { label: 'Pricing', href: '/pricing' }, { label: 'Charities', href: '/charities' }, { label: 'Dashboard', href: '/dashboard' }] },
             { title: 'Legal', links: [{ label: 'Privacy Policy', href: '/privacy' }, { label: 'Terms of Service', href: '/terms' }, { label: 'Cookie Policy', href: '/cookies' }] },
             { title: 'Support', links: [{ label: 'Contact Us', href: '/contact' }, { label: 'FAQ', href: '/faq' }, { label: 'Help Centre', href: '/help' }] },
-          ].map((section) => (
+          ].map(( section: any ) => (
             <div key={section.title}>
               <h4 className="text-sm font-semibold text-white mb-4">{section.title}</h4>
               <ul className="space-y-3">
-                {section.links.map((link) => (
+                {section.links.map(( link: any ) => (
                   <li key={link.href}><Link href={link.href} className="text-sm text-slate-400 hover:text-white transition-colors">{link.label}</Link></li>
                 ))}
               </ul>

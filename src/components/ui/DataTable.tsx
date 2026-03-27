@@ -38,7 +38,7 @@ export function DataTable<T extends Record<string, unknown>>({ data, columns, em
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-slate-800">
-              {columns.map((col) => (
+              {columns.map(( col: any ) => (
                 <th key={col.key as string} className={cn('text-left px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider', col.sortable && 'cursor-pointer hover:text-white')}
                   onClick={() => col.sortable && handleSort(col.key as string)}>
                   <div className="flex items-center gap-1">
@@ -54,9 +54,9 @@ export function DataTable<T extends Record<string, unknown>>({ data, columns, em
           <tbody className="divide-y divide-slate-800">
             {sorted.length === 0 ? (
               <tr><td colSpan={columns.length} className="px-6 py-12 text-center text-slate-500">{emptyMessage}</td></tr>
-            ) : sorted.map((row, i) => (
+            ) : sorted.map(( row: any, i: number ) => (
               <tr key={i} className="hover:bg-slate-800/40 transition-colors">
-                {columns.map((col) => (
+                {columns.map(( col: any ) => (
                   <td key={col.key as string} className="px-6 py-4 text-slate-300">
                     {col.render ? col.render(row) : String(row[col.key as string] ?? '—')}
                   </td>

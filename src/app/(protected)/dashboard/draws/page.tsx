@@ -17,7 +17,7 @@ export default async function DrawsPage() {
 
   const currentDraw = draws?.find((d) => ['draft','simulated','published'].includes(d.status)) ?? null;
   const pastDraws = draws?.filter((d) => d.status === 'completed' || d.status === 'published') ?? [];
-  const myEntryMap = new Map(myEntries?.map((e) => [e.draw_id, e]));
+  const myEntryMap = new Map(myEntries?.map(( e: any ) => [e.draw_id, e]));
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 space-y-8">
@@ -27,7 +27,7 @@ export default async function DrawsPage() {
         <div>
           <h2 className="text-xl font-bold text-white mb-4">Past Draws</h2>
           <div className="space-y-3">
-            {pastDraws.map((draw) => {
+            {pastDraws.map(( draw: any ) => {
               const myEntry = myEntryMap.get(draw.id);
               return (
                 <div key={draw.id} className="bg-slate-900 border border-slate-800 rounded-2xl p-5">
@@ -40,7 +40,7 @@ export default async function DrawsPage() {
                   </div>
                   {draw.numbers && (
                     <div className="flex gap-2 mb-3">
-                      {(draw.numbers as number[]).map((n) => (
+                      {(draw.numbers as number[]).map(( n: any ) => (
                         <NumberBall key={n} number={n} matched={myEntry ? (myEntry.matched_numbers as number[]).includes(n) : false} size="sm" />
                       ))}
                     </div>

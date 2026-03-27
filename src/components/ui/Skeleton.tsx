@@ -17,7 +17,7 @@ export function CardSkeleton() {
 export function TableSkeleton({ rows = 5 }: { rows?: number }) {
   return (
     <div className="space-y-2">
-      {Array.from({ length: rows }).map((_, i) => (
+      {Array.from({ length: rows }).map(( _: any, i: number ) => (
         <div key={i} className="flex gap-4 p-4 bg-slate-900 rounded-xl">
           <Skeleton className="h-4 w-1/4" />
           <Skeleton className="h-4 w-1/4" />

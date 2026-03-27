@@ -39,7 +39,7 @@ export default function SubscribePage() {
       </div>
       <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 mb-8">
         <h3 className="font-semibold text-white mb-4">Everything included:</h3>
-        <ul className="space-y-3">{features.map((f) => (<li key={f} className="flex items-center gap-3 text-slate-300"><Check className="w-5 h-5 text-emerald-400 shrink-0" />{f}</li>))}</ul>
+        <ul className="space-y-3">{features.map(( f: any ) => (<li key={f} className="flex items-center gap-3 text-slate-300"><Check className="w-5 h-5 text-emerald-400 shrink-0" />{f}</li>))}</ul>
       </div>
       <Button variant="primary" size="xl" fullWidth loading={loading} onClick={handleSubscribe}>
         Subscribe — {selectedPlan === 'yearly' ? '₹89.90/year' : '₹9.99/month'}

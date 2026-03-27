@@ -33,7 +33,7 @@ export default async function DrawDetailPage({ params }: { params: { id: string 
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
           <h2 className="text-lg font-bold text-white mb-4">Winners ({winners.length})</h2>
           <div className="space-y-2">
-            {winners.map((w) => {
+            {winners.map(( w: any ) => {
               const p = w.profiles as Record<string, string>;
               return (
                 <div key={w.id} className="flex justify-between items-center p-3 bg-slate-800/50 rounded-xl text-sm">
@@ -51,12 +51,12 @@ export default async function DrawDetailPage({ params }: { params: { id: string 
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
           <h2 className="text-lg font-bold text-white mb-4">Entries ({entries.length})</h2>
           <div className="space-y-2 max-h-96 overflow-y-auto">
-            {entries.map((entry) => {
+            {entries.map(( entry: any ) => {
               const p = entry.profiles as Record<string, string>;
               return (
                 <div key={entry.id} className="flex items-center justify-between p-3 bg-slate-800/50 rounded-xl text-sm">
                   <div><p className="font-medium text-white">{p.full_name}</p>
-                    <div className="flex gap-1 mt-1">{(entry.scores as number[]).map((n) => <NumberBall key={n} number={n} matched={(entry.matched_numbers as number[]).includes(n)} size="sm" />)}</div>
+                    <div className="flex gap-1 mt-1">{(entry.scores as number[]).map(( n: any ) => <NumberBall key={n} number={n} matched={(entry.matched_numbers as number[]).includes(n)} size="sm" />)}</div>
                   </div>
                   <span className={`text-xs px-2 py-1 rounded-full font-bold ${entry.match_count >= 3 ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-700 text-slate-400'}`}>{entry.match_count} matched</span>
                 </div>

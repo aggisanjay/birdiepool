@@ -41,7 +41,7 @@ export default async function AdminUserDetailPage({ params }: { params: { id: st
         <h2 className="text-lg font-bold text-white mb-4">Current Scores ({scores.length}/5)</h2>
         {scores.length > 0 ? (
           <div className="flex gap-3 flex-wrap">
-            {scores.map((s) => <NumberBall key={s.id as string} number={s.score as number} matched={true} size="lg" />)}
+            {scores.map(( s: any ) => <NumberBall key={s.id as string} number={s.score as number} matched={true} size="lg" />)}
           </div>
         ) : <p className="text-slate-500 text-sm">No scores entered</p>}
       </div>
@@ -63,7 +63,7 @@ export default async function AdminUserDetailPage({ params }: { params: { id: st
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
           <h2 className="text-lg font-bold text-white mb-4">Win History</h2>
           <div className="space-y-2">
-            {(profile.winners as Record<string, unknown>[]).map((w) => {
+            {(profile.winners as Record<string, unknown>[]).map(( w: any ) => {
               const draw = w.draws as Record<string, unknown>;
               return (
                 <div key={w.id as string} className="flex justify-between items-center p-3 bg-slate-800/50 rounded-xl text-sm">

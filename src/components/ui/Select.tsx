@@ -23,7 +23,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
           )}
           {...props}
         >
-          {options.map((opt) => (
+          {options.map(( opt: any ) => (
             <option key={opt.value} value={opt.value}>{opt.label}</option>
           ))}
         </select>

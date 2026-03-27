@@ -18,7 +18,7 @@ export function PricingSection() {
           <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="bg-slate-900/50 border border-slate-800 rounded-3xl p-8">
             <h3 className="text-xl font-bold text-white mb-2">Monthly</h3>
             <div className="flex items-baseline gap-1 mb-6"><span className="text-5xl font-black text-white">₹9.99</span><span className="text-slate-400">/month</span></div>
-            <ul className="space-y-3 mb-8">{features.map((f) => (<li key={f} className="flex items-center gap-3 text-slate-300"><Check className="w-5 h-5 text-emerald-400 shrink-0" />{f}</li>))}</ul>
+            <ul className="space-y-3 mb-8">{features.map(( f: any ) => (<li key={f} className="flex items-center gap-3 text-slate-300"><Check className="w-5 h-5 text-emerald-400 shrink-0" />{f}</li>))}</ul>
             <Link href="/signup?plan=monthly"><Button variant="outline" size="lg" fullWidth>Get Started</Button></Link>
           </motion.div>
           <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="relative bg-gradient-to-b from-emerald-950/50 to-slate-900/50 border border-emerald-500/30 rounded-3xl p-8">
@@ -28,7 +28,7 @@ export function PricingSection() {
             <h3 className="text-xl font-bold text-white mb-2">Yearly</h3>
             <div className="flex items-baseline gap-1 mb-2"><span className="text-5xl font-black text-white">₹89.90</span><span className="text-slate-400">/year</span></div>
             <p className="text-sm text-emerald-400 mb-6">That&apos;s ₹7.49/month — save ₹30/year</p>
-            <ul className="space-y-3 mb-8">{features.map((f) => (<li key={f} className="flex items-center gap-3 text-slate-300"><Check className="w-5 h-5 text-emerald-400 shrink-0" />{f}</li>))}</ul>
+            <ul className="space-y-3 mb-8">{features.map(( f: any ) => (<li key={f} className="flex items-center gap-3 text-slate-300"><Check className="w-5 h-5 text-emerald-400 shrink-0" />{f}</li>))}</ul>
             <Link href="/signup?plan=yearly"><Button variant="primary" size="lg" fullWidth>Get Started — Best Value</Button></Link>
           </motion.div>
         </div>

@@ -45,7 +45,7 @@ export function DrawConfigurator({ draw, onUpdate }: DrawConfiguratorProps) {
         {draw.numbers && (
           <div className="bg-slate-800/50 rounded-xl p-4 mb-6">
             <h4 className="text-sm font-semibold text-slate-300 mb-2">Draw Numbers</h4>
-            <div className="flex gap-3">{(draw.numbers as number[]).map((n, i) => (<div key={i} className="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center font-bold text-white shadow-lg">{n}</div>))}</div>
+            <div className="flex gap-3">{(draw.numbers as number[]).map(( n: any, i: number ) => (<div key={i} className="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center font-bold text-white shadow-lg">{n}</div>))}</div>
             {draw.status === 'simulated' && (
               <div className="mt-3 grid grid-cols-3 gap-3 text-center">
                 <div><p className="text-2xl font-black text-emerald-400">{draw.match_5_count as number}</p><p className="text-xs text-slate-400">5-Match Winners</p></div>
@@ -59,7 +59,7 @@ export function DrawConfigurator({ draw, onUpdate }: DrawConfiguratorProps) {
           <div className="bg-blue-950/20 border border-blue-500/20 rounded-xl p-4 mb-6">
             <h4 className="text-sm font-semibold text-blue-300 mb-2">Simulation Results ({(simulationResults.iterations as number)} iterations)</h4>
             <div className="grid grid-cols-3 gap-3 text-center">
-              {(['match5Winners','match4Winners','match3Winners'] as const).map((key, i) => (
+              {(['match5Winners','match4Winners','match3Winners'] as const).map(( key: any, i: number ) => (
                 <div key={key}><p className="text-lg font-bold text-white">{((simulationResults.averages as Record<string, number>)[key]).toFixed(2)}</p><p className="text-xs text-slate-400">Avg {['5','4','3'][i]}-Match</p></div>
               ))}
             </div>

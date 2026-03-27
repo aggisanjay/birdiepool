@@ -41,7 +41,7 @@ export default async function AdminDashboardPage() {
         </Link>
       </div>
       <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
-        {statCards.map((stat) => (
+        {statCards.map(( stat: any ) => (
           <Card key={stat.label} padding="sm">
             <div className={`w-10 h-10 rounded-xl ${stat.bg} flex items-center justify-center mb-3`}>
               <stat.icon className={`w-5 h-5 ${stat.color}`} />
@@ -61,7 +61,7 @@ export default async function AdminDashboardPage() {
           { label: 'Manage Draws', href: '/admin/draws', icon: Trophy },
           { label: 'Manage Charities', href: '/admin/charities', icon: Heart },
           { label: 'Verify Winners', href: '/admin/winners', icon: AlertCircle, highlight: stats.pending_verifications > 0 },
-        ].map((link) => (
+        ].map(( link: any ) => (
           <Link key={link.label} href={link.href}>
             <Card hover className={link.highlight ? 'border-amber-500/30' : ''}>
               <div className="flex items-center gap-3">

@@ -56,7 +56,7 @@ export function ScoreEntry({ scores: initialScores, isActive }: ScoreEntryProps)
       </CardHeader>
       <CardContent>
         <div className="flex items-center gap-3 mb-6 flex-wrap">
-          {Array.from({ length: 5 }).map((_, i) => {
+          {Array.from({ length: 5 }).map(( _: any, i: number ) => {
             const score = scores[i];
             return score ? (
               <div key={score.id} className="text-center">
@@ -70,7 +70,7 @@ export function ScoreEntry({ scores: initialScores, isActive }: ScoreEntryProps)
         </div>
         <div className="space-y-2 mb-4">
           <AnimatePresence>
-            {scores.map((score, index) => (
+            {scores.map(( score: any, index: number ) => (
               <motion.div key={score.id} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ delay: index * 0.05 }} className="flex items-center justify-between bg-slate-800/50 rounded-xl px-4 py-3">
                 <div className="flex items-center gap-4">
                   <span className="text-xs text-slate-500 w-4">#{score.position}</span>

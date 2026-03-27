@@ -44,7 +44,7 @@ export function Sidebar({ role }: { role: 'user' | 'admin' }) {
         {role === 'admin' && <span className="inline-block mt-2 text-xs bg-purple-500/20 text-purple-400 px-2 py-0.5 rounded-full font-semibold">Admin</span>}
       </div>
       <nav className="flex-1 py-4 px-3 space-y-1 overflow-y-auto">
-        {links.map((link) => {
+        {links.map(( link: any ) => {
           const isActive = pathname === link.href || pathname.startsWith(link.href + '/');
           return (
             <Link key={link.href} href={link.href}

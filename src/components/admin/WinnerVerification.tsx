@@ -21,7 +21,7 @@ export function WinnerVerification({ winners: initialWinners }: { winners: Winne
     try {
       const res = await fetch(`/api/winners/${winnerId}/verify`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status, rejection_reason: reason }) });
       if (!res.ok) { const data = await res.json(); throw new Error(data.error); }
-      setWinners((prev) => prev.map((w) => w.id === winnerId ? { ...w, verification_status: status } : w));
+      setWinners((prev) => prev.map(( w: any ) => w.id === winnerId ? { ...w, verification_status: status } : w));
       toast({ title: `Winner ${status}`, variant: 'success' });
     } catch (err: unknown) { toast({ title: 'Error', description: err instanceof Error ? err.message : 'Unknown error', variant: 'error' }); }
     finally { setLoading((prev) => ({ ...prev, [winnerId]: false })); }
@@ -33,7 +33,7 @@ export function WinnerVerification({ winners: initialWinners }: { winners: Winne
     try {
       const res = await fetch(`/api/winners/${winnerId}/payout`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ payment_reference: reference }) });
       if (!res.ok) { const data = await res.json(); throw new Error(data.error); }
-      setWinners((prev) => prev.map((w) => w.id === winnerId ? { ...w, payment_status: 'paid' } : w));
+      setWinners((prev) => prev.map(( w: any ) => w.id === winnerId ? { ...w, payment_status: 'paid' } : w));
       toast({ title: 'Payout recorded', variant: 'success' });
     } catch (err: unknown) { toast({ title: 'Error', description: err instanceof Error ? err.message : 'Unknown error', variant: 'error' }); }
     finally { setLoading((prev) => ({ ...prev, [`pay-${winnerId}`]: false })); }
@@ -42,7 +42,7 @@ export function WinnerVerification({ winners: initialWinners }: { winners: Winne
   return (
     <div className="space-y-4">
       {winners.length === 0 && <Card><CardContent><p className="text-center text-slate-400 py-8">No winners to display</p></CardContent></Card>}
-      {winners.map((winner) => (
+      {winners.map(( winner: any ) => (
         <Card key={winner.id}>
           <CardContent>
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">

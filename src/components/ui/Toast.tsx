@@ -33,7 +33,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
       {children}
       <div className="fixed bottom-4 right-4 z-[100] space-y-2 max-w-sm">
         <AnimatePresence>
-          {toasts.map((t) => {
+          {toasts.map(( t: any ) => {
             const Icon = icons[t.variant];
             return (
               <motion.div key={t.id} initial={{ opacity: 0, y: 20, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -10, scale: 0.95 }}

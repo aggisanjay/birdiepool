@@ -14,7 +14,7 @@ export function StatsGrid({ isActive, scoreCount, totalWon, pendingWinnings }: S
   ];
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-      {stats.map((stat, index) => (
+      {stats.map(( stat: any, index: number ) => (
         <motion.div key={stat.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1 }} className="bg-slate-900/50 border border-slate-800 rounded-2xl p-5">
           <div className="flex items-center justify-between mb-3">
             <span className="text-sm text-slate-400">{stat.label}</span>
