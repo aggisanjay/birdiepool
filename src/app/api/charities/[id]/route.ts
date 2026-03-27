@@ -19,7 +19,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new UnauthorizedError();
     const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
-    if (profile?.role !== 'admin') throw new ForbiddenError();
+    if ((profile as any)?.role !== 'admin') throw new ForbiddenError();
     const body = await request.json();
     const validated = charitySchema.partial().parse(body);
     const adminSupabase = createAdminSupabaseClient();
@@ -35,7 +35,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new UnauthorizedError();
     const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
-    if (profile?.role !== 'admin') throw new ForbiddenError();
+    if ((profile as any)?.role !== 'admin') throw new ForbiddenError();
     const adminSupabase = createAdminSupabaseClient();
     await adminSupabase.from('charities').update({ is_active: false }).eq('id', params.id);
     return Response.json({ success: true });

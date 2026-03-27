@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new UnauthorizedError();
     const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
-    if (profile?.role !== 'admin') throw new ForbiddenError();
+    if ((profile as any)?.role !== 'admin') throw new ForbiddenError();
 
     const url = new URL(request.url);
     const page = parseInt(url.searchParams.get('page') ?? '1');

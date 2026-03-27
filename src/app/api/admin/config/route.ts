@@ -8,7 +8,7 @@ export async function GET() {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new UnauthorizedError();
     const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
-    if (profile?.role !== 'admin') throw new ForbiddenError();
+    if ((profile as any)?.role !== 'admin') throw new ForbiddenError();
     const { data: config } = await supabase.from('platform_config').select('*');
     return Response.json({ config });
   } catch (error) { return handleApiError(error); }
@@ -20,7 +20,7 @@ export async function PUT(request: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new UnauthorizedError();
     const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
-    if (profile?.role !== 'admin') throw new ForbiddenError();
+    if ((profile as any)?.role !== 'admin') throw new ForbiddenError();
 
     const body = await request.json();
     const adminSupabase = createAdminSupabaseClient();

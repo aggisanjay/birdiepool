@@ -9,7 +9,7 @@ export default async function DrawDetailPage({ params }: { params: { id: string 
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect('/login');
   const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
-  if (profile?.role !== 'admin') redirect('/dashboard');
+  if ((profile as any)?.role !== 'admin') redirect('/dashboard');
 
   const adminSupabase = createAdminSupabaseClient();
   const { data: draw } = await adminSupabase.from('draws').select('*').eq('id', params.id).single();

@@ -12,7 +12,7 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new UnauthorizedError();
     const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
-    if (profile?.role !== 'admin') throw new ForbiddenError();
+    if ((profile as any)?.role !== 'admin') throw new ForbiddenError();
 
     const adminSupabase = createAdminSupabaseClient();
     const { data: draw } = await adminSupabase.from('draws').select('*').eq('id', params.id).single();

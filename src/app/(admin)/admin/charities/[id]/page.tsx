@@ -8,7 +8,7 @@ export default async function EditCharityPage({ params }: { params: { id: string
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect('/login');
   const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
-  if (profile?.role !== 'admin') redirect('/dashboard');
+  if ((profile as any)?.role !== 'admin') redirect('/dashboard');
 
   const adminSupabase = createAdminSupabaseClient();
   const { data: charity } = await adminSupabase.from('charities').select('*').eq('id', params.id).single();
