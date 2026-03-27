@@ -11,20 +11,19 @@ function processDirectory(dir) {
       let content = fs.readFileSync(fullPath, 'utf8');
       const original = content;
 
-      // Improved regex to match for (const item of items) with any whitespace
-      // and capturing the collection as well.
-      // We exclude cases already cast to any[] to avoid double casting.
-      const regex = /for\s*\(\s*const\s+([a-zA-Z0-9_]+)\s+of\s+([^)]+)\s*\)/g;
+      // Replaces client.from('table') with (client.from('table') as any)
+      const regex = /([a-zA-Z0-9_]+)\.from\(['"]([^'"]+)['"]\)/g;
       
-      content = content.replace(regex, (match, item, collection) => {
-        if (collection.includes('as any[]')) return match;
-        const fixed = `for (const ${item} of ${collection.trim()} as any[])`;
-        console.log(`[FIXED] ${fullPath}: ${match} -> ${fixed}`);
-        return fixed;
+      content = content.replace(regex, (match, client, table) => {
+        return `(${client}.from('${table}') as any)`;
       });
+      
+      // Cleanup double casting if any
+      content = content.replace(/\(\s*\(\s*([^()]+)\s+as\s+any\s*\)\s+as\s+any\s*\)/g, '($1 as any)');
 
       if (content !== original) {
         fs.writeFileSync(fullPath, content, 'utf8');
+        console.log(`[FIXED] from-call in: ${fullPath}`);
       }
     }
   }
@@ -32,4 +31,4 @@ function processDirectory(dir) {
 
 const srcDir = path.join(__dirname, 'src');
 processDirectory(srcDir);
-console.log('Done fixing for loops.');
+console.log('Done fixing from calls.');
