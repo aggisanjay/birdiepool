@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const validated = charitySchema.parse(body);
     const adminSupabase = createAdminSupabaseClient();
-    const { data: charity, error } = await adminSupabase.from('charities').insert(validated).select().single() as any;
+    const { data: charity, error } = await (adminSupabase.from('charities') as any).insert(validated).select().single() as any;
     if (error) throw error;
     return Response.json({ charity }, { status: 201 });
   } catch (error) { return handleApiError(error); }

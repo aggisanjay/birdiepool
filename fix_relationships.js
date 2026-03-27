@@ -11,11 +11,10 @@ function processDirectory(dir) {
       let content = fs.readFileSync(fullPath, 'utf8');
       const original = content;
 
-      // Replaces charities:selected_charity_id with charities:charities
-      // This is because selected_charity_id is the column name, but charities is the table/relationship name.
-      content = content.replaceAll('charities:selected_charity_id', 'charities:charities');
-
-      if (content !== original) {
+      // Using regex with 'g' flag for broader compatibility than replaceAll
+      const pattern = /charities:selected_charity_id/g;
+      if (pattern.test(content)) {
+        content = content.replace(pattern, 'charities:charities');
         fs.writeFileSync(fullPath, content, 'utf8');
         console.log(`[FIXED] Relationship syntax in: ${fullPath}`);
       }

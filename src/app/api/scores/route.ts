@@ -38,12 +38,12 @@ export async function POST(request: NextRequest) {
 
     if (scoreCount >= 5) {
       await adminSupabase.from('scores').delete().eq('user_id', user.id).eq('position', 5);
-      for (let pos = 4; pos >= 1; pos--) await adminSupabase.from('scores').update({ position: pos + 1 }).eq('user_id', user.id).eq('position', pos);
+      for (let pos = 4; pos >= 1; pos--) await (adminSupabase.from('scores') as any).update({ position: pos + 1 }).eq('user_id', user.id).eq('position', pos);
     } else if (scoreCount > 0) {
-      for (let pos = scoreCount; pos >= 1; pos--) await adminSupabase.from('scores').update({ position: pos + 1 }).eq('user_id', user.id).eq('position', pos);
+      for (let pos = scoreCount; pos >= 1; pos--) await (adminSupabase.from('scores') as any).update({ position: pos + 1 }).eq('user_id', user.id).eq('position', pos);
     }
 
-    const { data: newScore, error: insertError } = await adminSupabase.from('scores').insert({ user_id: user.id, score: validated.score, played_date: validated.played_date, position: 1 }).select().single() as any;
+    const { data: newScore, error: insertError } = await (adminSupabase.from('scores') as any).insert({ user_id: user.id, score: validated.score, played_date: validated.played_date, position: 1 }).select().single() as any;
     if (insertError) throw insertError;
 
     const { data: allScores } = await adminSupabase.from('scores').select('*').eq('user_id', user.id).order('position', { ascending: true });

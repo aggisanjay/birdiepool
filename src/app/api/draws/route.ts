@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
     const { data: previousDraw } = await adminSupabase.from('draws').select('match_5_pool_cents, rollover_cents, match_5_count').lt('draw_month', validated.draw_month).in('status', ['published', 'completed']).order('draw_month', { ascending: false }).limit(1).single() as any;
     const rollover = (previousDraw && (previousDraw as any).match_5_count === 0) ? (previousDraw as any).match_5_pool_cents + (previousDraw as any).rollover_cents : 0;
 
-    const { data: draw, error } = await adminSupabase.from('draws').insert({
+    const { data: draw, error } = await (adminSupabase.from('draws') as any).insert({
       draw_month: validated.draw_month, mode: validated.mode as never, status: 'draft' as never,
       total_pool_cents: totalPool, match_5_pool_cents: Math.round(totalPool * match5Pct / 100),
       match_4_pool_cents: Math.round(totalPool * match4Pct / 100), match_3_pool_cents: Math.round(totalPool * match3Pct / 100),

@@ -17,16 +17,16 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     if (winner.verification_status !== 'approved') throw new ValidationError('Winner must be approved before payout');
     if (winner.payment_status === 'paid') throw new ValidationError('Winner has already been paid');
 
-    const { data: updatedWinner, error } = await adminSupabase.from('winners')
+    const { data: updatedWinner, error } = await (adminSupabase.from('winners') as any)
       .update({ payment_status: 'paid' as never, paid_at: new Date().toISOString(), payment_reference: body.payment_reference ?? null })
       .eq('id', params.id).select().single() as any;
     if (error) throw error;
 
-    const { data: remainingUnpaid } = await adminSupabase.from('winners').select('id').eq('draw_id', winner.draw_id).neq('payment_status', 'paid').limit(1);
+    const { data: remainingUnpaid } = await (adminSupabase.from('winners') as any).select('id').eq('draw_id', winner.draw_id).neq('payment_status', 'paid').limit(1);
     if (!remainingUnpaid || remainingUnpaid.length === 0) {
-      await adminSupabase.from('draws').update({ status: 'completed' as never }).eq('id', winner.draw_id);
+      await (adminSupabase.from('draws') as any).update({ status: 'completed' as never }).eq('id', winner.draw_id);
     }
-    await adminSupabase.from('audit_log').insert({ actor_id: user.id, action: 'winner_paid', entity_type: 'winner', entity_id: params.id, metadata: { prize_amount_cents: winner.prize_amount_cents } });
+    await (adminSupabase.from('audit_log') as any).insert({ actor_id: user.id, action: 'winner_paid', entity_type: 'winner', entity_id: params.id, metadata: { prize_amount_cents: winner.prize_amount_cents } });
     return Response.json({ winner: updatedWinner });
   } catch (error) { return handleApiError(error); }
 }

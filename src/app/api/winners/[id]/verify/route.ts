@@ -23,10 +23,10 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     const updateData: Record<string, unknown> = { verification_status: validated.status, verified_at: new Date().toISOString(), verified_by: user.id };
     if (validated.status === 'rejected') updateData.rejection_reason = validated.rejection_reason ?? 'No reason provided';
 
-    const { data: updatedWinner, error } = await adminSupabase.from('winners').update(updateData).eq('id', params.id).select().single() as any;
+    const { data: updatedWinner, error } = await (adminSupabase.from('winners') as any).update(updateData).eq('id', params.id).select().single() as any;
     if (error) throw error;
 
-    await adminSupabase.from('audit_log').insert({ actor_id: user.id, action: `winner_${validated.status}`, entity_type: 'winner', entity_id: params.id, metadata: { winner_user_id: winner.user_id, match_type: winner.match_type, prize_amount_cents: winner.prize_amount_cents } });
+    await (adminSupabase.from('audit_log') as any).insert({ actor_id: user.id, action: `winner_${validated.status}`, entity_type: 'winner', entity_id: params.id, metadata: { winner_user_id: winner.user_id, match_type: winner.match_type, prize_amount_cents: winner.prize_amount_cents } });
     return Response.json({ winner: updatedWinner });
   } catch (error) { return handleApiError(error); }
 }
