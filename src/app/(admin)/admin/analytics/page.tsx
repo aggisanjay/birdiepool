@@ -7,7 +7,7 @@ export default async function AdminAnalyticsPage() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect('/login');
   const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
-  if (profile?.role !== 'admin') redirect('/dashboard');
+  if ((profile as any)?.role !== 'admin') redirect('/dashboard');
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/admin/analytics`, {
     headers: { Cookie: require('next/headers').cookies().toString() },
