@@ -8,7 +8,7 @@ export default async function ProtectedLayout({ children }: { children: React.Re
   if (!user) redirect('/login');
 
   const { data: profile } = await supabase
-    .from('profiles').select('role').eq('id', user.id).single();
+    .from('profiles').select('role').eq('id', user.id).single() as any;
 
   return (
     <div className="flex min-h-screen bg-slate-950">

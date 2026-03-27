@@ -11,11 +11,11 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
     const supabase = createServerSupabaseClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new UnauthorizedError();
-    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
+    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single() as any;
     if ((profile as any)?.role !== 'admin') throw new ForbiddenError();
 
     const adminSupabase = createAdminSupabaseClient();
-    const { data: draw } = await adminSupabase.from('draws').select('*').eq('id', params.id).single();
+    const { data: draw } = await adminSupabase.from('draws').select('*').eq('id', params.id).single() as any;
     if (!draw) throw new NotFoundError('Draw not found');
 
     const { data: eligibleUsers } = await adminSupabase.rpc('get_draw_eligible_users');

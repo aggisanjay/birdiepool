@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new UnauthorizedError();
 
-    const { data: sub } = await supabase.from('subscriptions').select('status, current_period_end').eq('user_id', user.id).in('status', ['active', 'trialing']).single();
+    const { data: sub } = await supabase.from('subscriptions').select('status, current_period_end').eq('user_id', user.id).in('status', ['active', 'trialing']).single() as any;
     if (!sub || new Date(sub.current_period_end!) < new Date()) throw new ValidationError('Active subscription required to enter scores');
 
     const body = await request.json();
@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
     if (playedDate > today) throw new ValidationError('Score date cannot be in the future');
 
     const adminSupabase = createAdminSupabaseClient();
-    const { data: existingScore } = await adminSupabase.from('scores').select('id').eq('user_id', user.id).eq('played_date', validated.played_date).single();
+    const { data: existingScore } = await adminSupabase.from('scores').select('id').eq('user_id', user.id).eq('played_date', validated.played_date).single() as any;
     if (existingScore) throw new ValidationError('A score already exists for this date');
 
     const { data: currentScores } = await adminSupabase.from('scores').select('id, position').eq('user_id', user.id).order('position', { ascending: true });
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
       for (let pos = scoreCount; pos >= 1; pos--) await adminSupabase.from('scores').update({ position: pos + 1 }).eq('user_id', user.id).eq('position', pos);
     }
 
-    const { data: newScore, error: insertError } = await adminSupabase.from('scores').insert({ user_id: user.id, score: validated.score, played_date: validated.played_date, position: 1 }).select().single();
+    const { data: newScore, error: insertError } = await adminSupabase.from('scores').insert({ user_id: user.id, score: validated.score, played_date: validated.played_date, position: 1 }).select().single() as any;
     if (insertError) throw insertError;
 
     const { data: allScores } = await adminSupabase.from('scores').select('*').eq('user_id', user.id).order('position', { ascending: true });

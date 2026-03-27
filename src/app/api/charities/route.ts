@@ -30,13 +30,13 @@ export async function POST(request: NextRequest) {
     const supabase = createServerSupabaseClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new UnauthorizedError();
-    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
+    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single() as any;
     if ((profile as any)?.role !== 'admin') throw new ForbiddenError();
 
     const body = await request.json();
     const validated = charitySchema.parse(body);
     const adminSupabase = createAdminSupabaseClient();
-    const { data: charity, error } = await adminSupabase.from('charities').insert(validated).select().single();
+    const { data: charity, error } = await adminSupabase.from('charities').insert(validated).select().single() as any;
     if (error) throw error;
     return Response.json({ charity }, { status: 201 });
   } catch (error) { return handleApiError(error); }

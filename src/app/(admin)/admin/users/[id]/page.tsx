@@ -8,13 +8,13 @@ export default async function AdminUserDetailPage({ params }: { params: { id: st
   const supabase = createServerSupabaseClient();
   const { data: { user: adminUser } } = await supabase.auth.getUser();
   if (!adminUser) redirect('/login');
-  const { data: adminProfile } = await supabase.from('profiles').select('role').eq('id', adminUser.id).single();
+  const { data: adminProfile } = await supabase.from('profiles').select('role').eq('id', adminUser.id).single() as any;
   if (adminProfile?.role !== 'admin') redirect('/dashboard');
 
   const adminSupabase = createAdminSupabaseClient();
   const { data: profile } = await adminSupabase.from('profiles')
     .select('*, subscriptions(*), scores(*), charities:selected_charity_id(id, name), winners(*, draws(draw_month, numbers))')
-    .eq('id', params.id).single();
+    .eq('id', params.id).single() as any;
   if (!profile) notFound();
 
   const activeSub = (profile.subscriptions as Record<string, unknown>[])?.find((s) => ['active','trialing'].includes(s.status as string));

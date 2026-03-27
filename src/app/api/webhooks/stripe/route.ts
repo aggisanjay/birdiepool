@@ -36,9 +36,9 @@ export async function POST(request: NextRequest) {
         const priceItem = sub.items.data[0];
         const interval = priceItem?.price?.recurring?.interval === 'year' ? 'yearly' : 'monthly';
         const amountCents = priceItem?.price?.unit_amount ?? 0;
-        const { data: profile } = await supabase.from('profiles').select('charity_contribution_pct').eq('id', userId).single();
+        const { data: profile } = await supabase.from('profiles').select('charity_contribution_pct').eq('id', userId).single() as any;
         const charityPct = (profile as any)?.charity_contribution_pct ?? 10;
-        const { data: configRow } = await supabase.from('platform_config').select('value').eq('key', 'prize_pool_pct').single();
+        const { data: configRow } = await supabase.from('platform_config').select('value').eq('key', 'prize_pool_pct').single() as any;
         const prizePoolPct = configRow ? Number(configRow.value) : 50;
         const monthlyAmount = interval === 'yearly' ? Math.round(amountCents / 12) : amountCents;
         const charityContribution = Math.round(monthlyAmount * charityPct / 100);

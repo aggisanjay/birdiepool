@@ -11,11 +11,11 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
     const supabase = createServerSupabaseClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new UnauthorizedError();
-    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
+    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single() as any;
     if ((profile as any)?.role !== 'admin') throw new ForbiddenError();
 
     const adminSupabase = createAdminSupabaseClient();
-    const { data: draw } = await adminSupabase.from('draws').select('*').eq('id', params.id).single();
+    const { data: draw } = await adminSupabase.from('draws').select('*').eq('id', params.id).single() as any;
     if (!draw) throw new NotFoundError('Draw not found');
     if (!['draft', 'simulated'].includes(draw.status)) throw new ValidationError('Draw can only be executed from draft or simulated status');
 
@@ -55,7 +55,7 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
       eligible_participants: eligibleUsers.length, match_5_count: results.match5Winners.length,
       match_4_count: results.match4Winners.length, match_3_count: results.match3Winners.length,
       simulation_results: { drawNumbers, totalEntries: results.totalEntries, prizeDistribution },
-    }).eq('id', draw.id).select().single();
+    }).eq('id', draw.id).select().single() as any;
     if (updateError) throw updateError;
 
     await adminSupabase.from('audit_log').insert({ actor_id: user.id, action: 'draw_executed', entity_type: 'draw', entity_id: draw.id, metadata: { numbers: drawNumbers, winners: winnerRecords.length } });

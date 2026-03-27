@@ -6,7 +6,7 @@ export default async function AdminWinnersPage() {
   const supabase = createServerSupabaseClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect('/login');
-  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
+  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single() as any;
   if ((profile as any)?.role !== 'admin') redirect('/dashboard');
 
   const adminSupabase = createAdminSupabaseClient();

@@ -7,7 +7,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     const supabase = createServerSupabaseClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new UnauthorizedError();
-    const { data: adminProfile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
+    const { data: adminProfile } = await supabase.from('profiles').select('role').eq('id', user.id).single() as any;
     if (adminProfile?.role !== 'admin') throw new ForbiddenError();
 
     const body = await request.json();

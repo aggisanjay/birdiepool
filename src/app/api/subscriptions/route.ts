@@ -14,10 +14,10 @@ export async function POST(request: NextRequest) {
     const { interval } = body;
     if (!['monthly', 'yearly'].includes(interval)) throw new ValidationError('Invalid subscription interval');
 
-    const { data: profile } = await supabase.from('profiles').select('email, full_name').eq('id', user.id).single();
+    const { data: profile } = await supabase.from('profiles').select('email, full_name').eq('id', user.id).single() as any;
 
-    const { data: existingSub } = await supabase.from('subscriptions').select('stripe_customer_id').eq('user_id', user.id).in('status', ['active', 'trialing']).single();
-    const { data: prevSub } = await supabase.from('subscriptions').select('stripe_customer_id').eq('user_id', user.id).order('created_at', { ascending: false }).limit(1).single();
+    const { data: existingSub } = await supabase.from('subscriptions').select('stripe_customer_id').eq('user_id', user.id).in('status', ['active', 'trialing']).single() as any;
+    const { data: prevSub } = await supabase.from('subscriptions').select('stripe_customer_id').eq('user_id', user.id).order('created_at', { ascending: false }).limit(1).single() as any;
 
     let stripeCustomerId: string;
     if (existingSub?.stripe_customer_id) {

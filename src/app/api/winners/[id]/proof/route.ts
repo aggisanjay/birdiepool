@@ -10,7 +10,7 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new UnauthorizedError();
 
-    const { data: winner } = await supabase.from('winners').select('id, user_id, verification_status').eq('id', params.id).eq('user_id', user.id).single();
+    const { data: winner } = await supabase.from('winners').select('id, user_id, verification_status').eq('id', params.id).eq('user_id', user.id).single() as any;
     if (!winner) throw new NotFoundError('Winner record not found');
     if (winner.verification_status !== 'pending') throw new ValidationError('Proof can only be uploaded for pending verifications');
 
@@ -30,7 +30,7 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
     if (uploadError) throw uploadError;
 
     const { data: urlData } = adminSupabase.storage.from('winner-proofs').getPublicUrl(uploadData.path);
-    const { data: updatedWinner, error } = await adminSupabase.from('winners').update({ proof_image_url: urlData.publicUrl, proof_uploaded_at: new Date().toISOString() }).eq('id', params.id).select().single();
+    const { data: updatedWinner, error } = await adminSupabase.from('winners').update({ proof_image_url: urlData.publicUrl, proof_uploaded_at: new Date().toISOString() }).eq('id', params.id).select().single() as any;
     if (error) throw error;
     return Response.json({ winner: updatedWinner });
   } catch (error) { return handleApiError(error); }

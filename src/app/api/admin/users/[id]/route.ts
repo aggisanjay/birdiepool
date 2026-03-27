@@ -7,13 +7,13 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
     const supabase = createServerSupabaseClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new UnauthorizedError();
-    const { data: adminProfile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
+    const { data: adminProfile } = await supabase.from('profiles').select('role').eq('id', user.id).single() as any;
     if (adminProfile?.role !== 'admin') throw new ForbiddenError();
 
     const adminSupabase = createAdminSupabaseClient();
     const { data: userProfile, error } = await adminSupabase.from('profiles')
       .select('*, subscriptions(*), scores(*), charities:selected_charity_id(*), winners(*, draws(draw_month, numbers)), draw_entries(*, draws(draw_month, status))')
-      .eq('id', params.id).single();
+      .eq('id', params.id).single() as any;
     if (error || !userProfile) throw new NotFoundError('User not found');
     return Response.json({ user: userProfile });
   } catch (error) { return handleApiError(error); }
@@ -24,7 +24,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     const supabase = createServerSupabaseClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new UnauthorizedError();
-    const { data: adminProfile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
+    const { data: adminProfile } = await supabase.from('profiles').select('role').eq('id', user.id).single() as any;
     if (adminProfile?.role !== 'admin') throw new ForbiddenError();
 
     const body = await request.json();
@@ -33,7 +33,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     const updateData: Record<string, unknown> = {};
     for (const field of allowedFields) { if (body[field] !== undefined) updateData[field] = body[field]; }
 
-    const { data: updated, error } = await adminSupabase.from('profiles').update(updateData).eq('id', params.id).select().single();
+    const { data: updated, error } = await adminSupabase.from('profiles').update(updateData).eq('id', params.id).select().single() as any;
     if (error) throw error;
     await adminSupabase.from('audit_log').insert({ actor_id: user.id, action: 'admin_user_updated', entity_type: 'profile', entity_id: params.id, metadata: { fields_updated: Object.keys(updateData) } });
     return Response.json({ user: updated });

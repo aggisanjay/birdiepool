@@ -7,7 +7,7 @@ export async function GET() {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new UnauthorizedError();
 
-    const { data: subscription } = await supabase.from('subscriptions').select('*').eq('user_id', user.id).order('created_at', { ascending: false }).limit(1).single();
+    const { data: subscription } = await supabase.from('subscriptions').select('*').eq('user_id', user.id).order('created_at', { ascending: false }).limit(1).single() as any;
     if (!subscription) return Response.json({ status: 'none', isActive: false, subscription: null });
 
     const isActive = ['active', 'trialing'].includes(subscription.status) && new Date(subscription.current_period_end!) > new Date();

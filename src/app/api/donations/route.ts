@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { charity_id, amount_cents, is_anonymous, message } = body;
     if (!charity_id || !amount_cents || amount_cents < 100) throw new ValidationError('Invalid donation amount (minimum ₹1)');
-    const { data: charity } = await supabase.from('charities').select('name').eq('id', charity_id).single();
+    const { data: charity } = await supabase.from('charities').select('name').eq('id', charity_id).single() as any;
     if (!charity) throw new ValidationError('Charity not found');
 
     const session = await stripe.checkout.sessions.create({

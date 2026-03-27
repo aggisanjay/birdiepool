@@ -10,7 +10,7 @@ export default async function CharityPage() {
   if (!user) redirect('/login');
 
   const { data: profile } = await supabase.from('profiles')
-    .select('charity_contribution_pct, charities:selected_charity_id(id, name, logo_url, description, total_raised_cents, supporter_count)').eq('id', user.id).single();
+    .select('charity_contribution_pct, charities:selected_charity_id(id, name, logo_url, description, total_raised_cents, supporter_count)').eq('id', user.id).single() as any;
 
   const selectedCharity = (profile as Record<string, unknown>)?.charities as Record<string, unknown> | null;
 

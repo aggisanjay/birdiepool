@@ -9,7 +9,7 @@ export default async function ScoresPage() {
   if (!user) redirect('/login');
 
   const [{ data: subscription }, { data: scores }] = await Promise.all([
-    supabase.from('subscriptions').select('status, current_period_end').eq('user_id', user.id).in('status', ['active','trialing']).single(),
+    supabase.from('subscriptions').select('status, current_period_end').eq('user_id', user.id).in('status', ['active','trialing']).single() as any,
     supabase.from('scores').select('*').eq('user_id', user.id).order('position', { ascending: true }),
   ]);
   const isActive = !!subscription && new Date(subscription.current_period_end!) > new Date();

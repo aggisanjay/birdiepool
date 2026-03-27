@@ -20,12 +20,12 @@ export default async function DashboardPage() {
     { data: winners },
     { data: currentDraw },
   ] = await Promise.all([
-    supabase.from('profiles').select('*, charities:selected_charity_id(*)').eq('id', user.id).single(),
-    supabase.from('subscriptions').select('*').eq('user_id', user.id).order('created_at', { ascending: false }).limit(1).single(),
+    supabase.from('profiles').select('*, charities:selected_charity_id(*)').eq('id', user.id).single() as any,
+    supabase.from('subscriptions').select('*').eq('user_id', user.id).order('created_at', { ascending: false }).limit(1).single() as any,
     supabase.from('scores').select('*').eq('user_id', user.id).order('position', { ascending: true }),
-    supabase.from('profiles').select('selected_charity_id, charity_contribution_pct, charities:selected_charity_id(id, name, logo_url, description)').eq('id', user.id).single(),
+    supabase.from('profiles').select('selected_charity_id, charity_contribution_pct, charities:selected_charity_id(id, name, logo_url, description)').eq('id', user.id).single() as any,
     supabase.from('winners').select('*, draws(draw_month, numbers)').eq('user_id', user.id).order('created_at', { ascending: false }),
-    supabase.from('draws').select('*').in('status', ['draft', 'simulated', 'published']).order('draw_month', { ascending: false }).limit(1).single(),
+    supabase.from('draws').select('*').in('status', ['draft', 'simulated', 'published']).order('draw_month', { ascending: false }).limit(1).single() as any,
   ]);
 
   const isActive = subscription &&

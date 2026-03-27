@@ -6,7 +6,7 @@ export async function GET() {
     const supabase = createServerSupabaseClient();
     const { data: draw } = await supabase.from('draws').select('*')
       .in('status', ['draft', 'simulated', 'published'])
-      .order('draw_month', { ascending: false }).limit(1).single();
+      .order('draw_month', { ascending: false }).limit(1).single() as any;
     return Response.json({ draw: draw ?? null });
   } catch (error) { return handleApiError(error); }
 }

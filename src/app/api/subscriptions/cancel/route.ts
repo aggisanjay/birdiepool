@@ -8,7 +8,7 @@ export async function POST() {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new UnauthorizedError();
 
-    const { data: subscription } = await supabase.from('subscriptions').select('stripe_subscription_id').eq('user_id', user.id).in('status', ['active', 'trialing']).single();
+    const { data: subscription } = await supabase.from('subscriptions').select('stripe_subscription_id').eq('user_id', user.id).in('status', ['active', 'trialing']).single() as any;
     if (!subscription?.stripe_subscription_id) throw new NotFoundError('No active subscription found');
 
     await stripe.subscriptions.update(subscription.stripe_subscription_id, { cancel_at_period_end: true });

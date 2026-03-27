@@ -13,11 +13,11 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     if (score !== undefined && (score < 1 || score > 45 || !Number.isInteger(score))) throw new ValidationError('Score must be an integer between 1 and 45');
     if (played_date && new Date(played_date) > new Date()) throw new ValidationError('Score date cannot be in the future');
 
-    const { data: existingScore } = await supabase.from('scores').select('*').eq('id', params.id).eq('user_id', user.id).single();
+    const { data: existingScore } = await supabase.from('scores').select('*').eq('id', params.id).eq('user_id', user.id).single() as any;
     if (!existingScore) throw new NotFoundError('Score not found');
 
     if (played_date && played_date !== existingScore.played_date) {
-      const { data: collision } = await supabase.from('scores').select('id').eq('user_id', user.id).eq('played_date', played_date).neq('id', params.id).single();
+      const { data: collision } = await supabase.from('scores').select('id').eq('user_id', user.id).eq('played_date', played_date).neq('id', params.id).single() as any;
       if (collision) throw new ValidationError('A score already exists for this date');
     }
 
@@ -25,7 +25,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     if (score !== undefined) updateData.score = score;
     if (played_date) updateData.played_date = played_date;
 
-    const { data: updated, error } = await supabase.from('scores').update(updateData).eq('id', params.id).eq('user_id', user.id).select().single();
+    const { data: updated, error } = await supabase.from('scores').update(updateData).eq('id', params.id).eq('user_id', user.id).select().single() as any;
     if (error) throw error;
     return Response.json({ score: updated });
   } catch (error) { return handleApiError(error); }
@@ -38,7 +38,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new UnauthorizedError();
 
-    const { data: score } = await supabase.from('scores').select('position').eq('id', params.id).eq('user_id', user.id).single();
+    const { data: score } = await supabase.from('scores').select('position').eq('id', params.id).eq('user_id', user.id).single() as any;
     if (!score) throw new NotFoundError('Score not found');
 
     await adminSupabase.from('scores').delete().eq('id', params.id);

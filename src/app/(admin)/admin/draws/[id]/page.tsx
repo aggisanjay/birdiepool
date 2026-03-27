@@ -8,11 +8,11 @@ export default async function DrawDetailPage({ params }: { params: { id: string 
   const supabase = createServerSupabaseClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect('/login');
-  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
+  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single() as any;
   if ((profile as any)?.role !== 'admin') redirect('/dashboard');
 
   const adminSupabase = createAdminSupabaseClient();
-  const { data: draw } = await adminSupabase.from('draws').select('*').eq('id', params.id).single();
+  const { data: draw } = await adminSupabase.from('draws').select('*').eq('id', params.id).single() as any;
   if (!draw) notFound();
 
   const { data: entries } = await adminSupabase.from('draw_entries')

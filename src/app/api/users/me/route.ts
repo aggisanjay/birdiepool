@@ -8,7 +8,7 @@ export async function GET() {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new UnauthorizedError();
     const { data: profile } = await supabase.from('profiles')
-      .select('*, charities:selected_charity_id(id, name, logo_url, description)').eq('id', user.id).single();
+      .select('*, charities:selected_charity_id(id, name, logo_url, description)').eq('id', user.id).single() as any;
     return Response.json({ profile });
   } catch (error) { return handleApiError(error); }
 }
@@ -22,7 +22,7 @@ export async function PUT(request: NextRequest) {
     const allowed = ['full_name', 'display_name', 'phone', 'onboarding_completed'];
     const updates: Record<string, unknown> = {};
     for (const key of allowed) { if (body[key] !== undefined) updates[key] = body[key]; }
-    const { data: profile, error } = await supabase.from('profiles').update(updates).eq('id', user.id).select().single();
+    const { data: profile, error } = await supabase.from('profiles').update(updates).eq('id', user.id).select().single() as any;
     if (error) throw error;
     return Response.json({ profile });
   } catch (error) { return handleApiError(error); }

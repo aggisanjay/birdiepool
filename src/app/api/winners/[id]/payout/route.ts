@@ -7,19 +7,19 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     const supabase = createServerSupabaseClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new UnauthorizedError();
-    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
+    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single() as any;
     if ((profile as any)?.role !== 'admin') throw new ForbiddenError();
 
     const adminSupabase = createAdminSupabaseClient();
     const body = await request.json();
-    const { data: winner } = await adminSupabase.from('winners').select('*').eq('id', params.id).single();
+    const { data: winner } = await adminSupabase.from('winners').select('*').eq('id', params.id).single() as any;
     if (!winner) throw new NotFoundError('Winner not found');
     if (winner.verification_status !== 'approved') throw new ValidationError('Winner must be approved before payout');
     if (winner.payment_status === 'paid') throw new ValidationError('Winner has already been paid');
 
     const { data: updatedWinner, error } = await adminSupabase.from('winners')
       .update({ payment_status: 'paid' as never, paid_at: new Date().toISOString(), payment_reference: body.payment_reference ?? null })
-      .eq('id', params.id).select().single();
+      .eq('id', params.id).select().single() as any;
     if (error) throw error;
 
     const { data: remainingUnpaid } = await adminSupabase.from('winners').select('id').eq('draw_id', winner.draw_id).neq('payment_status', 'paid').limit(1);

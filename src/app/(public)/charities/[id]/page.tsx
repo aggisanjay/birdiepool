@@ -8,7 +8,7 @@ import Link from 'next/link';
 
 export default async function CharityDetailPage({ params }: { params: { id: string } }) {
   const supabase = createServerSupabaseClient();
-  const { data: charity } = await supabase.from('charities').select('*, charity_events(*)').eq('slug', params.id).eq('is_active', true).single();
+  const { data: charity } = await supabase.from('charities').select('*, charity_events(*)').eq('slug', params.id).eq('is_active', true).single() as any;
   if (!charity) notFound();
 
   return (
