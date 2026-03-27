@@ -15,10 +15,10 @@ export async function PUT(request: NextRequest) {
     const { data: charity } = await supabase.from('charities').select('id').eq('id', validated.charity_id).eq('is_active', true).single() as any;
     if (!charity) throw new ValidationError('Selected charity not found or inactive');
 
-    const { data: updatedProfile, error } = await supabase.from('profiles')
+    const { data: updatedProfile, error } = await (supabase.from('profiles') as any)
       .update({ selected_charity_id: validated.charity_id, charity_contribution_pct: validated.contribution_pct })
       .eq('id', user.id)
-      .select('id, selected_charity_id, charity_contribution_pct, charities:selected_charity_id(id, name, logo_url)')
+      .select('id, selected_charity_id, charity_contribution_pct, charities:charities(id, name, logo_url)')
       .single() as any;
     if (error) throw error;
     return Response.json({ profile: updatedProfile });

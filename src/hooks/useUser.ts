@@ -15,7 +15,7 @@ export function useUser() {
         const { data: { user } } = await supabase.auth.getUser();
         setUser(user);
         if (user) {
-          const { data } = await supabase.from('profiles').select('*, charities:selected_charity_id(id, name, logo_url)').eq('id', user.id).single() as any;
+          const { data } = await supabase.from('profiles').select('*, charities:charities(id, name, logo_url)').eq('id', user.id).single() as any;
           setProfile(data);
         }
       } catch (err) { console.error('Error fetching user:', err); }
