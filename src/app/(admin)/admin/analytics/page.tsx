@@ -1,18 +1,25 @@
 import { createServerSupabaseClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers'; // ✅ FIX: ESM import, not require()
 import { AnalyticsCharts } from '@/components/admin/AnalyticsCharts';
 
 export default async function AdminAnalyticsPage() {
   const supabase = createServerSupabaseClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect('/login');
-  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single() as any;
+
+  const { data: profile } = await supabase
+    .from('profiles').select('role').eq('id', user.id).single() as any;
   if ((profile as any)?.role !== 'admin') redirect('/dashboard');
 
+  // ✅ FIX: cookies() is async in Next.js 15 — must be awaited
+  const cookieStore = await cookies();
+
   const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/admin/analytics`, {
-    headers: { Cookie: require('next/headers').cookies().toString() },
+    headers: { Cookie: cookieStore.toString() },
     cache: 'no-store',
   }).catch(() => null);
+
   const data = res?.ok ? await res.json() : {};
 
   return (
