@@ -22,6 +22,10 @@ const adminLinks = [
   { label: 'Analytics', href: '/admin/analytics', icon: BarChart3 },
 ];
 
+// Root links that should only highlight on an exact match, not on child routes.
+// e.g. /dashboard should NOT be active when on /dashboard/scores.
+const exactMatchHrefs = new Set(['/dashboard', '/admin']);
+
 export function Sidebar({ role }: { role: 'user' | 'admin' }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -44,8 +48,13 @@ export function Sidebar({ role }: { role: 'user' | 'admin' }) {
         {role === 'admin' && <span className="inline-block mt-2 text-xs bg-purple-500/20 text-purple-400 px-2 py-0.5 rounded-full font-semibold">Admin</span>}
       </div>
       <nav className="flex-1 py-4 px-3 space-y-1 overflow-y-auto">
-        {links.map(( link: any ) => {
-          const isActive = pathname === link.href || pathname.startsWith(link.href + '/');
+        {links.map((link: any) => {
+          // ✅ FIX: root links (/dashboard, /admin) use exact match only.
+          // Previously startsWith('/dashboard/') also matched /dashboard/scores etc.,
+          // causing both Dashboard and the child page to be highlighted green at once.
+          const isActive = exactMatchHrefs.has(link.href)
+            ? pathname === link.href
+            : pathname === link.href || pathname.startsWith(link.href + '/');
           return (
             <Link key={link.href} href={link.href}
               className={cn('flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all',
