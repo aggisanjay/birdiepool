@@ -102,11 +102,29 @@ export async function POST(
       throw new ValidationError('Draw can only be executed from draft or simulated status');
     }
 
-    // Delete any existing entries from previous simulations
+    // ✅ FIX: Only wipe entries & winners when re-simulating from 'simulated' status.
+    // If the draw is still in 'draft', no prior data exists to protect.
+    // This prevents accidentally deleting proof uploads or verification progress
+    // if an admin re-runs the simulation after winners have already uploaded proofs.
+    if (draw.status === 'simulated') {
+      // Check if any winner has already uploaded proof or been verified — block re-simulation
+      const { data: progressedWinners } = await adminSupabase
+        .from('winners')
+        .select('id')
+        .eq('draw_id', params.id)
+        .or('proof_image_url.not.is.null,verification_status.neq.pending')
+        .limit(1);
+
+      if (progressedWinners && progressedWinners.length > 0) {
+        throw new ValidationError(
+          'Cannot re-simulate: one or more winners have already uploaded proof or been verified. Publish the draw instead.'
+        );
+      }
+    }
+
+    // Safe to delete previous simulation data
     await adminSupabase
       .from('draw_entries').delete().eq('draw_id', params.id);
-
-    // Also delete any previously created winners
     await adminSupabase
       .from('winners').delete().eq('draw_id', params.id);
 
