@@ -181,7 +181,7 @@ export function WinningsOverview({ winners }: { winners: Winner[] }) {
           <div className="bg-amber-950/30 border border-amber-500/20 rounded-xl p-4 text-center">
             <Clock className="w-5 h-5 text-amber-400 mx-auto mb-1" />
             <div className="text-2xl font-black text-amber-400">
-              <AnimatedCounter value={pendingAmount / 100} prefix="£" decimals={2} />
+              <AnimatedCounter value={pendingAmount / 100} prefix="₹" decimals={2} />
             </div>
             <p className="text-xs text-slate-400">Pending</p>
           </div>
