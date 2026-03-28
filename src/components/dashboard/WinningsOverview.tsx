@@ -208,7 +208,7 @@ export function WinningsOverview({ winners }: { winners: Winner[] }) {
                       {matchTypeLabels[winner.match_type] ?? winner.match_type}
                     </span>
                     <span className="text-lg font-black text-emerald-400">
-                      £{(winner.prize_amount_cents / 100).toFixed(2)}
+                      ₹{(winner.prize_amount_cents / 100).toFixed(2)}
                     </span>
                   </div>
 
