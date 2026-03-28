@@ -174,7 +174,7 @@ export function WinningsOverview({ winners }: { winners: Winner[] }) {
           <div className="bg-emerald-950/30 border border-emerald-500/20 rounded-xl p-4 text-center">
             <DollarSign className="w-5 h-5 text-emerald-400 mx-auto mb-1" />
             <div className="text-2xl font-black text-emerald-400">
-              <AnimatedCounter value={totalWon / 100} prefix="£" decimals={2} />
+              <AnimatedCounter value={totalWon / 100} prefix="₹" decimals={2} />
             </div>
             <p className="text-xs text-slate-400">Total Paid</p>
           </div>
