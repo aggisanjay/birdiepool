@@ -230,7 +230,7 @@ export function WinnerVerification({ winners: initialWinners }: { winners: Winne
                 {/* Right: prize + status */}
                 <div className="text-right shrink-0">
                   <p className="text-3xl font-black text-emerald-400 mb-2">
-                    £{(winner.prize_amount_cents / 100).toFixed(2)}
+                     ₹{(winner.prize_amount_cents / 100).toFixed(2)}
                   </p>
                   <div className="flex items-center gap-2 justify-end flex-wrap">
                     {/* Verification status badge */}
@@ -256,7 +256,7 @@ export function WinnerVerification({ winners: initialWinners }: { winners: Winne
                     {/* Payment status badge */}
                     {winner.verification_status === 'approved' && (
                       <Badge variant={winner.payment_status === 'paid' ? 'success' : 'warning'}>
-                        {winner.payment_status === 'paid' ? '£ Paid' : '£ Unpaid'}
+                        {winner.payment_status === 'paid' ? '₹ Paid' : '₹ Unpaid'}
                       </Badge>
                     )}
                   </div>
