@@ -1,5 +1,5 @@
-// src/components/admin/WinnerVerification.tsx
 "use client";
+
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -82,12 +82,14 @@ export function WinnerVerification({
     reason?: string
   ) {
     setLoading((prev) => ({ ...prev, [winnerId]: true }));
+
     try {
       const res = await fetch(`/api/winners/${winnerId}/verify`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status, rejection_reason: reason }),
       });
+
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to verify");
 
@@ -96,6 +98,7 @@ export function WinnerVerification({
           w.id === winnerId ? { ...w, verification_status: status } : w
         )
       );
+
       toast({
         title: status === "approved" ? "Winner approved ✅" : "Winner rejected",
         variant: status === "approved" ? "success" : "warning",
@@ -112,14 +115,18 @@ export function WinnerVerification({
   }
 
   async function handlePayout(winnerId: string) {
-    const reference = prompt("Enter payment reference (e.g. BACS-2024-001):") ?? "";
+    const reference =
+      prompt("Enter payment reference (e.g. BACS-2024-001):") ?? "";
+
     setLoading((prev) => ({ ...prev, [`pay-${winnerId}`]: true }));
+
     try {
       const res = await fetch(`/api/winners/${winnerId}/payout`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ payment_reference: reference }),
       });
+
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to mark as paid");
 
@@ -128,6 +135,7 @@ export function WinnerVerification({
           w.id === winnerId ? { ...w, payment_status: "paid" } : w
         )
       );
+
       toast({ title: "Payout recorded ✅", variant: "success" });
     } catch (err: unknown) {
       toast({
@@ -142,7 +150,6 @@ export function WinnerVerification({
 
   return (
     <div className="space-y-4">
-
       {/* Filter tabs */}
       <div className="flex gap-2 flex-wrap">
         {FILTER_OPTIONS.map((f) => (
@@ -184,14 +191,17 @@ export function WinnerVerification({
           <Card key={winner.id}>
             <CardContent>
               <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
-
                 {/* Left: user info */}
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2 flex-wrap">
                     <h4 className="font-bold text-white text-lg">
                       {winner.profiles.full_name}
                     </h4>
-                    <Badge variant={matchBadgeVariant[winner.match_type] ?? "default"}>
+                    <Badge
+                      variant={
+                        matchBadgeVariant[winner.match_type] ?? "default"
+                      }
+                    >
                       {matchLabels[winner.match_type] ?? winner.match_type}
                     </Badge>
                   </div>
@@ -260,22 +270,27 @@ export function WinnerVerification({
                         Pending
                       </Badge>
                     )}
+
                     {winner.verification_status === "approved" && (
                       <Badge variant="success">
                         <CheckCircle className="w-3 h-3 mr-1" />
                         Approved
                       </Badge>
                     )}
+
                     {winner.verification_status === "rejected" && (
                       <Badge variant="error">
                         <XCircle className="w-3 h-3 mr-1" />
                         Rejected
                       </Badge>
                     )}
+
                     {winner.verification_status === "approved" && (
                       <Badge
                         variant={
-                          winner.payment_status === "paid" ? "success" : "warning"
+                          winner.payment_status === "paid"
+                            ? "success"
+                            : "warning"
                         }
                       >
                         {winner.payment_status === "paid" ? "Paid" : "Unpaid"}
@@ -287,7 +302,6 @@ export function WinnerVerification({
 
               {/* Action buttons */}
               <div className="mt-4 pt-4 border-t border-slate-800 flex flex-wrap gap-2 items-center">
-
                 {winner.proof_image_url ? (
                   <Button
                     variant="outline"
@@ -314,6 +328,7 @@ export function WinnerVerification({
                     >
                       Approve
                     </Button>
+
                     <Button
                       variant="destructive"
                       size="sm"
@@ -322,7 +337,11 @@ export function WinnerVerification({
                       onClick={() => {
                         const reason = prompt("Rejection reason:");
                         if (reason && reason.trim()) {
-                          handleVerify(winner.id, "rejected", reason.trim());
+                          handleVerify(
+                            winner.id,
+                            "rejected",
+                            reason.trim()
+                          );
                         }
                       }}
                     >
@@ -375,6 +394,7 @@ export function WinnerVerification({
                   &times;
                 </button>
               </div>
+
               <div className="p-4">
                 <img
                   src={viewingProof}
@@ -382,8 +402,9 @@ export function WinnerVerification({
                   className="w-full rounded-xl object-contain max-h-[60vh]"
                 />
               </div>
+
               <div className="p-4 border-t border-slate-800 flex justify-end">
-                
+                <a
                   href={viewingProof}
                   target="_blank"
                   rel="noopener noreferrer"
